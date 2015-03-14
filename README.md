@@ -1,6 +1,8 @@
 GoEnigma
 ========
 
+[![Build Status](https://magnum.travis-ci.com/DenBeke/CodingTheory.svg?token=55DZWEWREsf4wvhULGzt)](https://magnum.travis-ci.com/DenBeke/CodingTheory)
+
 An enigma machine written in Go
 
 Build

@@ -1,7 +1,7 @@
 package enigma
 
 import (
-	"github.com/RobinVerachtert/GoEnigma/rotor"
+	"github.com/DenBeke/CodingTheory/rotor"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )

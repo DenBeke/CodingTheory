@@ -2,7 +2,7 @@ package main
 
 import "os"
 import "fmt"
-import "github.com/RobinVerachtert/GoEnigma/enigma"
+import "github.com/DenBeke/CodingTheory/enigma"
 
 func main() {
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/RobinVerachtert/GoEnigma/enigma"
+	"github.com/DenBeke/CodingTheory/enigma"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )

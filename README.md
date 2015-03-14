@@ -5,6 +5,22 @@ GoEnigma
 
 An enigma machine written in Go
 
+
+Cloning
+-------
+
+### go get
+
+Let Go clone the repo into the correct directory:
+
+    $ go get github.com/DenBeke/CodingTheory
+
+### git clone
+
+You can also Git clone the repo, but then you need to manually set the correct path.  
+Repo should be cloned in `$GOPATH/src/github.com/DenBeke/CodingTheory`.
+
+
 Build
 -----
 

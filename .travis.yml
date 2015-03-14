@@ -10,3 +10,6 @@ env:
 install:
   - go get github.com/smartystreets/goconvey
   - go get github.com/smartystreets/assertions
+
+notifications:
+  slack: codetheorie:GPFuC9JhdITb4S5j2Xn3o7ug

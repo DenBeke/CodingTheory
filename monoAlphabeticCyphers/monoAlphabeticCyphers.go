@@ -64,7 +64,13 @@ func (p PlayfairSquare) GetRune(x, y int) rune {
 
 func NewPlayfairSquare(codeWord string) PlayfairSquare {
 
-	var s [5][5]rune
+	// clear the codeword of any whitespace
+	r := strings.NewReplacer(" ", "")
+	codeWord = r.Replace(codeWord)
+	// set all characters to uppercase
+	codeWord = strings.ToUpper(codeWord)
+
+	s := [5][5]rune{{'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}}
 	p := make(map[rune][2]int)
 	fullCode := ""
 	// remove duplicates from codeWord
@@ -84,25 +90,29 @@ func NewPlayfairSquare(codeWord string) PlayfairSquare {
 	// Add remaining letters to codeWord
 	for i := 65; i < 91; i++ {
 		seen := false
+		adding := rune(i)
+		if adding == 'J' {
+			adding = 'I'
+		}
 		for j := 0; j < len(fullCode); j++ {
-			if rune(fullCode[j]) == rune(i) {
+			if rune(fullCode[j]) == adding {
 				seen = true
 				break
 			}
 		}
 		if !seen {
-			fullCode += string(i)
+			fullCode += string(adding)
 		}
 	}
 
 	if len(fullCode) != 25 {
-		fmt.Printf("Problem with CodeWord \n")
+		fmt.Printf("Problem with CodeWord %d \n", len(fullCode))
 	}
 	// setup square and positionMap
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
-			s[i][j] = rune(fullCode[5*(i-1)+j])
-			p[rune(fullCode[5*(i-1)+j])] = [2]int{i, j}
+			s[i][j] = rune(fullCode[5*(i)+j])
+			p[rune(fullCode[5*(i)+j])] = [2]int{i, j}
 		}
 	}
 	return PlayfairSquare{square: s, positionMap: p}
@@ -131,6 +141,7 @@ func Playfair(text, codeWord string) string {
 			newText += string('X')
 		}
 		newText += string(text[i])
+		prevLetter = text[i]
 	}
 
 	// if the number of letters is Odd, add an X to the end
@@ -140,7 +151,7 @@ func Playfair(text, codeWord string) string {
 
 	retText := ""
 	// take digrams from the text.
-	for i := 1; i < len(newText); i += 2 {
+	for i := 0; i < len(newText); i += 2 {
 		letter1 := rune(newText[i])
 		letter2 := rune(newText[i+1])
 		pos1 := square.GetPos(letter1)
@@ -151,13 +162,13 @@ func Playfair(text, codeWord string) string {
 		if pos1[1] == pos2[1] {
 			// zelfde rij:
 			// kolom+1
-			newLetter1 = square.GetRune(pos1[0], (pos1[1]+1)%5)
-			newLetter2 = square.GetRune(pos2[0], (pos2[1]+1)%5)
+			newLetter1 = square.GetRune((pos1[0]+1)%5, pos1[1])
+			newLetter2 = square.GetRune((pos2[0]+1)%5, pos2[1])
 		} else {
 			if pos1[0] == pos2[0] {
 				// zelfde kolom: rij+1
-				newLetter1 = square.GetRune((pos1[0]+1)%5, pos1[1])
-				newLetter2 = square.GetRune((pos2[0]+1)%5, pos2[1])
+				newLetter1 = square.GetRune(pos1[0], (pos1[1]+1)%5)
+				newLetter2 = square.GetRune(pos2[0], (pos2[1]+1)%5)
 			} else {
 				// andere rij en kolom
 				// neem hoekpunten van de rechthoek

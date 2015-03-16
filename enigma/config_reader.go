@@ -1,9 +1,9 @@
 package enigma
 
 import (
-	"github.com/DenBeke/CodingTheory/rotor"
 	"encoding/json"
 	"errors"
+	"github.com/DenBeke/CodingTheory/rotor"
 	"os"
 )
 

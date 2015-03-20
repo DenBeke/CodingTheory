@@ -1,0 +1,108 @@
+\documentclass[a4paper,11pt]{article}
+\author{Robin Verachtert - s0121405}
+\title{Cryptografie en Codetheorie: \\ADFGVX}
+\date{10 march 2015}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\urldef{\googleSearch}\url{https://www.google.be/search?q=l%27annee+1966+fut+marquee+par+une+evenement&oq=l%27annee+1966+fut+marquee+par+une+evenement&aqs=chrome..69i57.1740j0j7&sourceid=chrome&es_sm=122&ie=UTF-8#q=l%27annee+1966+fut+marquee+par+un+evenement+bizarre} % define url in heading, because otherwise the % give problems
+
+
+\begin{document}
+\maketitle 
+\tableofcontents
+\pagebreak
+\section{ADFGVX}
+\subsection{Undoing the single column transposition}
+
+\subsection{Vinden van de taal.}
+Door eerst een frequentie analyse te doen op de 4 meest waarschijnlijke teksten, kregen we de tabel in Figure 1.
+\begin{figure}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+'FV'& 16.93 \\ \hline
+'AA'& 8.26\\ \hline
+'DX'& 8.02\\ \hline
+'AD'& 7.80\\ \hline
+'XV'& 7.32\\ \hline
+'VD'& 7.18\\ \hline
+'AF'& 6.15\\ \hline
+'FF'& 5.80\\ \hline
+'GG'& 5.64\\ \hline
+'DD'& 4.91\\ \hline
+'XD'& 3.64\\ \hline
+'XG'& 3.18\\ \hline
+'FA'& 3.10\\ \hline
+'DG'& 2.94\\ \hline
+'VX'& 1.59\\ \hline
+'DF'& 1.21\\ \hline
+'VA'& 1.16\\ \hline
+'VG'& 1.16\\ \hline
+'GF'& 0.99\\ \hline
+'GD'& 0.67\\ \hline
+'AV'& 0.56\\ \hline
+'GX'& 0.51\\ \hline
+'FG'& 0.32\\ \hline
+'XX'& 0.13\\ \hline
+'AG'& 0.13\\ \hline
+'VV'& 0.10\\ \hline
+'FD'& 0.08\\ \hline
+'XF'& 0.08\\ \hline
+'FX'& 0.05\\ \hline
+'XA'& 0.05\\ \hline
+'DA'& 0.05\\ \hline
+'VF'& 0.05\\ \hline
+'DV'& 0.05\\ \hline
+'AX'& 0.02\\ \hline
+'GA'& 0.0\\ \hline
+'GV'& 0.0\\ \hline
+\end{tabular}
+
+\caption{ Tabel met de digram frequenties voor de tekst verkregen door de 4e kolom transpositie. De andere frequentie tabellen zijn bijna identiek, alleen zijn de digrammen anders.}
+\end{center}
+
+\end{figure}
+Om deze tabel te analyseren vergelijken we hem gewoon met gekende frequenties\footnote{\url{http://en.wikipedia.org/wiki/Letter_frequency}}. Dit kan omdat de digrammen in ADFGVX voor enkele characters staan. In ADFGVX kan men ook cijfers gebruiken en daze staan niet in de frequentie tabellen van de talen, maar dit is niet echt een probleem, aangezien de frequentie van deze zeer klein zijn.
+
+\subsection{Vinden van de bron tekst}
+
+Het digram 'FV' komt het veel vaker voor dan de rest. De enige talen waar dit geval is zijn Frans en Duits. Aangezien de Enigma code in het Duits is het zeer waarschijnlijk dat deze tekst in het Frans is geschreven.
+
+Voordat we begonnen met letters te vervangen hebben we eerst het aantal mogelijke teksten terug gebracht van 4 naar 2. We hebben dit gedaan door te kijken naar de digrammen die 2 maal op elkaar volgen. (@JAKOB: GIJ hebt dees gedaan, dus kunde gij da uittypen).
+
+Nu we nog 2 mogelijke teksten hadden, hebben we het werk opgesplitst onder Jakob en Robin, die elks een tekst probeerden te kraken.
+
+Door eerst de meest frequente letters in te vullen (FV=e, DX=n, ... ) en daarna met trial en error de andere redelijk frequente characters in te vullen, verschenen er Franse woorden, of strings die erg leken op een Frans woord, hierdoor konden we ook de minder frequente letters invullen. Eens ongeveer de helft van de digrammen was vervangen door een character, konden we zinnen lezen en zo de andere characters aanvullen, eens we de eerste zin zeker wisten konden we Google aanspreken \footnote{\googleSearch} en vonden we dat het ging om het eerste hoofdstuk van \textit{"vingt mille lieues sous les mers"} van Jules Vernes. 
+
+Zoals reeds vermeld hadden we 2 teksten opgelost, beide gaven dezelfde tekst. Als we kijken naar de vierkanten die beiden gaven (Figure 2 en 3), zien we dat de ene een spiegeling is van de andere, deze spiegeling wordt dan ongedaan gemaakt, door een andere kolom transpositie te doen.	% TODO verder uitwerken hoe dit juist (wiskundig) gebeurt.
+
+\begin{figure}[h!]
+   \begin{minipage}{0.45\textwidth}
+		\begin{tabular}{c || c | c | c | c | c | c |}
+		&A&D&F&G&V&X\\	\hline\hline
+		A&a&5&c&?&q&w\\ \hline
+		D&s&o&2&x&i&d\\ \hline
+		F&r&g&l&b&0&1\\ \hline
+		G&6&m&y&u&f&p\\ \hline
+		V&h&3&e&?&z&t\\ \hline
+		X&4&n&8&j&v&k\\ \hline
+		\end{tabular}
+		\caption{Vierkant van de 1e tekst }
+    \end{minipage}
+      \hspace{0.5cm}
+   \begin{minipage}{0.45\textwidth}
+		\begin{tabular}{c || c | c | c | c | c | c |}
+		&A&D&F&G&V&X\\	\hline\hline
+		A&a&s&r&6&h&4\\ \hline
+		D&5&o&g&m&3&n\\ \hline
+		F&c&2&i&y&e&8\\ \hline
+		G&?&x&b&u&?&j\\ \hline
+		V&q&l&0&f&z&v\\ \hline
+		X&w&d&1&p&t&k\\ \hline
+		\end{tabular}
+		\caption{Vierkant van de 2e tekst }
+    \end{minipage}
+\end{figure}
+
+\end{document}

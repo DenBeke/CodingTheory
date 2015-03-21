@@ -4,68 +4,72 @@ ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O'
 ALPHABETSTRING = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
 
 def possibleKeys(length) :
-  keys = permutations(ALPHABETSTRING, length)
-  for key in keys:
-    newKey = "".join(OrderedDict.fromkeys(''.join(key)+ALPHABETSTRING))
-    tIndex = newKey.index('T')
-    tRow = int(tIndex/5)
-    tCol = tIndex%5
-    hIndex = newKey.index('H')
-    hRow = int(hIndex/5)
-    hCol = hIndex%5
-    eIndex = newKey.index('E')
-    eRow = int(eIndex/5)
-    eCol = eIndex%5
-    oIndex = newKey.index('O')
-    oRow = int(oIndex/5)
-    oCol = oIndex%5
-    bIndex = newKey.index('B')
-    bRow = int(bIndex/5)
-    bCol = bIndex%5
-    sIndex = newKey.index('S')
-    sRow = int(sIndex/5)
-    sCol = sIndex%5
-    possible = True
-    if tRow == hRow: #same row
-      if oRow != tRow or sRow != tRow:
-        possible = False
-      elif (((tCol != 4) and (oCol - tCol == 1)) or ((tCol == 4) and (oCol - tCol == -4))) and (((hCol != 4) and (sCol - hCol == 1)) or ((hCol == 4) and (sCol - hCol == -4))): #right mapping
-        pass
-      else:
-        possible = False
-    elif tCol == hCol: #same col
-      if oCol != tCol or sCol != oCol:
-        possible = False
-      elif (((tRow != 4) and (oRow - tRow == 1)) or ((tRow == 4) and (oRow - tRow == -4))) and (((hRow != 4) and (sRow - hRow == 1)) or ((hRow == 4) and (sRow - hRow == -4))): #right mapping
-        pass
-      else:
-        possible = False
-    else: #different row/col
-      if oRow == tRow and oCol == hCol and sRow == hRow and sCol == tCol:
-        pass
-      else:
-        possible = False
-    if hRow == eRow: #same row
-      if oRow != hRow or bRow != hRow:
-        possible = False
-      elif (((hCol != 4) and (oCol - hCol == 1)) or ((hCol == 4) and (oCol - hCol == -4))) and (((eCol != 4) and (bCol - eCol == 1)) or ((eCol == 4) and (bCol - eCol == -4))): #right mapping
-        pass
-      else:
-        possible = False
-    elif hCol == eCol: #same col
-      if oCol != hCol or bCol != hCol:
-        possible = False
-      elif (((hRow != 4) and (oRow - hRow == 1)) or ((hRow == 4) and (oRow - hRow == -4))) and (((eRow != 4) and (bRow - eRow == 1)) or ((eRow == 4) and (bRow - eRow == -4))): #right mapping
-        pass
-      else:
-        possible = False
-    else: #different row/col
-      if oRow == hRow and oCol == eCol and bRow == eRow and bCol == hCol:
-        pass
-      else:
-        possible = False
-    if possible:
-      print(newKey)
+  hsto = "HSTO"
+  
+  keyParts = permutations(ALPHABETSTRING, length-4)
+  for keyPart in keyParts:
+    keys = permutations(''.join(keyPart) + hsto, length)
+    for key in keys:
+      newKey = "".join(OrderedDict.fromkeys(''.join(key)+ALPHABETSTRING))
+      tIndex = newKey.index('T')
+      tRow = int(tIndex/5)
+      tCol = tIndex%5
+      hIndex = newKey.index('H')
+      hRow = int(hIndex/5)
+      hCol = hIndex%5
+      eIndex = newKey.index('E')
+      eRow = int(eIndex/5)
+      eCol = eIndex%5
+      oIndex = newKey.index('O')
+      oRow = int(oIndex/5)
+      oCol = oIndex%5
+      bIndex = newKey.index('B')
+      bRow = int(bIndex/5)
+      bCol = bIndex%5
+      sIndex = newKey.index('S')
+      sRow = int(sIndex/5)
+      sCol = sIndex%5
+      possible = True
+      if tRow == hRow: #same row
+        if oRow != tRow or sRow != tRow:
+          possible = False
+        elif (((tCol != 4) and (oCol - tCol == 1)) or ((tCol == 4) and (oCol - tCol == -4))) and (((hCol != 4) and (sCol - hCol == 1)) or ((hCol == 4) and (sCol - hCol == -4))): #right mapping
+          pass
+        else:
+          possible = False
+      elif tCol == hCol: #same col
+        if oCol != tCol or sCol != oCol:
+          possible = False
+        elif (((tRow != 4) and (oRow - tRow == 1)) or ((tRow == 4) and (oRow - tRow == -4))) and (((hRow != 4) and (sRow - hRow == 1)) or ((hRow == 4) and (sRow - hRow == -4))): #right mapping
+          pass
+        else:
+          possible = False
+      else: #different row/col
+        if oRow == tRow and oCol == hCol and sRow == hRow and sCol == tCol:
+          pass
+        else:
+          possible = False
+      if hRow == eRow: #same row
+        if oRow != hRow or bRow != hRow:
+          possible = False
+        elif (((hCol != 4) and (oCol - hCol == 1)) or ((hCol == 4) and (oCol - hCol == -4))) and (((eCol != 4) and (bCol - eCol == 1)) or ((eCol == 4) and (bCol - eCol == -4))): #right mapping
+          pass
+        else:
+          possible = False
+      elif hCol == eCol: #same col
+        if oCol != hCol or bCol != hCol:
+          possible = False
+        elif (((hRow != 4) and (oRow - hRow == 1)) or ((hRow == 4) and (oRow - hRow == -4))) and (((eRow != 4) and (bRow - eRow == 1)) or ((eRow == 4) and (bRow - eRow == -4))): #right mapping
+          pass
+        else:
+          possible = False
+      else: #different row/col
+        if oRow == hRow and oCol == eCol and bRow == eRow and bCol == hCol:
+          pass
+        else:
+          possible = False
+      if possible:
+        print(newKey)
 
 
 """
@@ -209,4 +213,4 @@ cipherText = "RUBQVPLPSZWCDRRQDTTOTFGBFRDASXRFRAISIBPCAWTWORPVQHWNOQBUABKXHVRDQB
 #tryDecode(cipherText)
 #getDigramFrequencies(cipherText)
 
-possibleKeys(5)
+possibleKeys(6)

@@ -1,7 +1,72 @@
 from collections import Counter, OrderedDict
-from itertools import combinations_with_replacement, permutations
+from itertools import combinations, permutations, groupby
 ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 ALPHABETSTRING = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
+
+def possibleKeys(length) :
+  keys = permutations(ALPHABETSTRING, length)
+  for key in keys:
+    newKey = "".join(OrderedDict.fromkeys(''.join(key)+ALPHABETSTRING))
+    tIndex = newKey.index('T')
+    tRow = int(tIndex/5)
+    tCol = tIndex%5
+    hIndex = newKey.index('H')
+    hRow = int(hIndex/5)
+    hCol = hIndex%5
+    eIndex = newKey.index('E')
+    eRow = int(eIndex/5)
+    eCol = eIndex%5
+    oIndex = newKey.index('O')
+    oRow = int(oIndex/5)
+    oCol = oIndex%5
+    bIndex = newKey.index('B')
+    bRow = int(bIndex/5)
+    bCol = bIndex%5
+    sIndex = newKey.index('S')
+    sRow = int(sIndex/5)
+    sCol = sIndex%5
+    possible = True
+    if tRow == hRow: #same row
+      if oRow != tRow or sRow != tRow:
+        possible = False
+      elif (((tCol != 4) and (oCol - tCol == 1)) or ((tCol == 4) and (oCol - tCol == -4))) and (((hCol != 4) and (sCol - hCol == 1)) or ((hCol == 4) and (sCol - hCol == -4))): #right mapping
+        pass
+      else:
+        possible = False
+    elif tCol == hCol: #same col
+      if oCol != tCol or sCol != oCol:
+        possible = False
+      elif (((tRow != 4) and (oRow - tRow == 1)) or ((tRow == 4) and (oRow - tRow == -4))) and (((hRow != 4) and (sRow - hRow == 1)) or ((hRow == 4) and (sRow - hRow == -4))): #right mapping
+        pass
+      else:
+        possible = False
+    else: #different row/col
+      if oRow == tRow and oCol == hCol and sRow == hRow and sCol == tCol:
+        pass
+      else:
+        possible = False
+    if hRow == eRow: #same row
+      if oRow != hRow or bRow != hRow:
+        possible = False
+      elif (((hCol != 4) and (oCol - hCol == 1)) or ((hCol == 4) and (oCol - hCol == -4))) and (((eCol != 4) and (bCol - eCol == 1)) or ((eCol == 4) and (bCol - eCol == -4))): #right mapping
+        pass
+      else:
+        possible = False
+    elif hCol == eCol: #same col
+      if oCol != hCol or bCol != hCol:
+        possible = False
+      elif (((hRow != 4) and (oRow - hRow == 1)) or ((hRow == 4) and (oRow - hRow == -4))) and (((eRow != 4) and (bRow - eRow == 1)) or ((eRow == 4) and (bRow - eRow == -4))): #right mapping
+        pass
+      else:
+        possible = False
+    else: #different row/col
+      if oRow == hRow and oCol == eCol and bRow == eRow and bCol == hCol:
+        pass
+      else:
+        possible = False
+    if possible:
+      print(newKey)
+
 
 """
 Prints the digram frequencies of a text
@@ -31,7 +96,8 @@ def getDigramFrequencies(text):
   index = 0
   digrams =  [noDoublesText[i:i+2] for i in range(0, len(noDoublesText), 2)]
   c = Counter(digrams)
-  print(c)
+  #print(c)
+  print(c["IB"])
   doubleDigrams =  [noDoublesText[i:i+4] for i in range(0, len(noDoublesText), 4)]
   tripleDigrams =  [noDoublesText[i:i+6] for i in range(0, len(noDoublesText), 6)]
   quadDigrams =  [noDoublesText[i:i+8] for i in range(0, len(noDoublesText), 8)]
@@ -63,7 +129,7 @@ def getDigramFrequencies(text):
   cQuad = Counter(quadDigrams+quadDigrams2+quadDigrams3+quadDigrams4)
   cQuint = Counter(quintDigrams+quintDigrams2+quintDigrams3+quintDigrams4+quintDigrams5)
   cHex = Counter(hexDigrams+hexDigrams2+hexDigrams3+hexDigrams4+hexDigrams5+hexDigrams6)
-  print(cHex) #pick something to print
+  #print(cHex) #pick something to print
       
 
 """
@@ -78,7 +144,7 @@ def reverseInfo(text) :
     freq = c[digram]
     reverseFreq = c[reverse]
     minFreq = min(freq, reverseFreq)
-    if minFreq > 10:
+    if minFreq > 60:
       print(digram, minFreq)
 
 
@@ -98,7 +164,7 @@ def splitPlayfair(text):
 Try to decode a text using the given decode map
 """
 def tryDecode(text) :
-  decodeMap = {"OS": "TH", "OB": "HE"}
+  decodeMap = {"OS": "TH", "OB": "HE", "AI": "IN", "IZ":"ER", "BI": "AT"}
   digrams =  [text[i:i+2] for i in range(0, len(text), 2)]
   result = ""
   for digram in digrams:
@@ -140,6 +206,7 @@ holmesText = "CHAPTERIMRSHERLOCKHOLMESINTHEYEARITOOKMYDEGREEOFDOCTOROFMEDICINEOF
 cipherText = "RUBQVPLPSZWCDRRQDTTOTFGBFRDASXRFRAISIBPCAWTWORPVQHWNOQBUABKXHVRDQBDSWAOGKRTOESQSCMOBGICNIERAMTSZOSIZABISSFIRTDFRESWKPDOBFWKRPCSFXSOBFWPRPSWAQSIRTDFRESWKPDOBGRPSAIFHBURFSDHQVPRGDTSQFHTOBICNBKVPIGFZECBKIUKFDIOSIZRQGTHOOBQBDSWAABPBDIHPOGPMKBGMIFIDOBRBYNFHOSAITZHGQGFXKIPCFRTPVSIFGFVFBUIOHQYXTRCSVAVIRTSOOBZSBNPTCSABPVKMFYKBDXKBOIFWXIQTISIGSQOSARRYQFYFDERKDIOFISTEOROSRODRRQDTTOYEZBRFXKAIETSCDBQBRAHFIAIAQNDAQCVSIFRTOSIOSEOFRTROFIPCRPQGKCFZIAZBACMNBZAIGFWKYCRKZBACMNBZAIFRTPOSOGPMKBGMAVDTOTFXISQBFRPVPHOBURMGSZLCFTDXOGQNRZFZPMTAPCOSIQRDFXIAFHFZAWPRZBSCABFRPRKSRPTDIOSZAIFHOFISTEORCSIFOBIWIEPTYWQHWFAVSXFMGTZROSRPNUAQQSVRIOIDAIVSIFGTZRLPSZBRFZDIOSAZPRZBSCABPCSFXCSZAQQSXRSXOBIAPTPDOBWKBXAIORGSGBSAHGRKCXOBIARTTDQGRPYGTPOSAZPRZBSCBOBUABRADEPWPRQCRKPTHTSZFBOSIKIXRQIGRAHFIAOSRQVSIFRTOSRQIFWAOGHOBDRZBPVPTDBZAIGSGBOFRKRQGDRKZRQGRBYNRPDTGBIAGRPSRIABPFSBFZMOTRPQFMTRNCYBGIQTTWTRHVAEPQBIHIKYRKFITORDQRXSRGSLHQGQEATWFWDZQOTORKCRAITOFTHGOGHOOBORQHQCTORKPTQCKZRODTSQTWTFGBYIDFOBORRKCRAIHCFKORZIYBTFHBETWFOFWFRFOSIZABISSFIRTDRPDOOBFWQSINAIFBNTRFIEPTYWQHWFRFIFSZAIFHOFISTEORTFPNDFBDRZFBOIZBISFBHDFKRAXRPVPHBQVPRFQHQCEYFETOSBIZBOWKCIIGRKYTFZISMADSOBCEIZAQLTBPFTTQOBIBIETOFOQBRPTBHRTZFQSQOSBOABZBWCURFRHVIOTQXFHFSRBIPDZSQGZTYIECVYRQOTHFIRBQEAXBQCOSIFIDOBZIBIOSURFRESWKCTLTAIAIIFOBISFBKRFBDXKBOITASCOSAIABPBEOPDFBOIMNTXORTFHOOBGHZTWRAIRGFAORMIDFOBZIBIOSGSDBQCRASXIZRQOSROWKRKPDOBGHZTPSOBZIBIOSTWTSIYSZSQOSBGTZSQURFRNVFKCSFZPCVSRDSVFZPMRASIZASQKMATOSIZABISSVRFWTLTAIRDBKATOSIZABISTVFBMIIZRQFYKBDPRTPFOBTSIYSZZXFZPMFBZBRAZIQRQHQCIFIGRKGIPVPBXDRDBKWKQBTWTOOBZIMNTXORBKURCFSGWDWAWIIGIFIFBDRZOBPSOBFWWRRFPTIADSKMWKGIISOBGRPSAIFHOSIGRTNFRGSQPDOBCEIZAQFNQRUSESDHOBEISIBUBQTOFBDIOSRQSEOSTOBIIKIXABIAMPSZAIRPOSROUKVSRQXBRZIGRPOSROFZOSOSRKTDPTPTLCSERQSEOSAIKMIADESQTWTRWNIOOBQSISSTFIBNEATFZBISOBQSISTLHQAEFIXIQIBITOHEIGEIRGHPKFEHZBRKHEORBWAIIFIDOBQSISTLHQARXFIDFTHGOGQRQHZTPAQCSAHGOSIZOZAFOFIEFIXIQIBITOHQEAAXTOIFIDOBSFIEEGKSESDHOBPTTUOAIAWNAEPSOBIKIXBIRQDXFTTDETQSHOOBQSISSTFIIEQRYMXDRKGYIAZIGRBIRTOFHPIZBZRQKZFOIGRKRODTYBOIOSIFIDOBPTTORKGRBIFZPCOSIZABISSVRFHFWAFVPCIAPDSFWFRKCTFIPTBEDTCWFOLPSZQRUIDSKMVSIFQBQCOSRFFIPTVYURHRXFTDYBMFBUARIZRQBRFZDISXFSWKCIIGKFICCRTBMSZSVKGCFUABIETOFOQBORTOBDIFABEHXFIDXRGROSRGWAWIRQHPKFDWGRXDIGTAYZIAOSOQIAZINFBZRQFBYIOSEIYIECVYRQDIOSIFIDOBZIBIOSYVTORAESWKYTSEVSGANHIGGOTFQRTASCOTIZIOOBFRBPTFYFTSTXGSDBQCHZAIOSBOSEEXSQRKGTPNMKIFAIORZIOSBOVKVPBIRTOFHPIOSFZYSOIDOBZIBIOSURTWTOIFETKRACRKPDFBDIOSROWKOSBGTZSQOSIQKBQROTRKPDOBTOBIHCHZIGRPDRSNVKBISEREOTBRFZDIOSIZABISTVOBRAPBBZIGOSRTRAYRWFBOAOBQOHSECMTORDBKIARFSQTOFBDIOSIZABISSVRFOSRGRQOIESHOOBWKBXAIORRKPDFBSDEIYWKBBCFOETWRRFOSBGFTDXAIOADSIDTBTRGIRURFBQBRSEIFIGAMXDHQBGDAPSOBORGSPCGRPSWAKFPTPSFEGSDLQBOIGSHCHQGQRDBKGHGIPHOBZIBIOSTOTZTGIFIDOBGRPSAIFWIWESWKGIMIGAEDSOTNOBIATOFBSDBIWIEAPDOBGHZTPSOBFWPSOBTOBIFRPCOSAOBXIQKBQROTLPSZKRDIOSIOBDBGAIYWACZBKWHCBITRXKTDAIRKCTIFWAPW"
 
 
-tryDecode(cipherText)
+#tryDecode(cipherText)
+#getDigramFrequencies(cipherText)
 
-
+possibleKeys(5)

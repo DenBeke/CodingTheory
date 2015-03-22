@@ -3,73 +3,70 @@ from itertools import combinations, permutations, groupby
 ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 ALPHABETSTRING = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
 
+
+
+"""
+Prints all possible keys with given length for mappings set in this function
+"""
 def possibleKeys(length) :
   hsto = "HSTO"
-  
-  keyParts = permutations(ALPHABETSTRING, length-4)
+  customAlphabet = "ABCDEFGIKLMNPQRUVWXYZ"
+  keyParts = permutations(customAlphabet, length-4)
   for keyPart in keyParts:
     keys = permutations(''.join(keyPart) + hsto, length)
     for key in keys:
       newKey = "".join(OrderedDict.fromkeys(''.join(key)+ALPHABETSTRING))
-      tIndex = newKey.index('T')
-      tRow = int(tIndex/5)
-      tCol = tIndex%5
-      hIndex = newKey.index('H')
-      hRow = int(hIndex/5)
-      hCol = hIndex%5
-      eIndex = newKey.index('E')
-      eRow = int(eIndex/5)
-      eCol = eIndex%5
-      oIndex = newKey.index('O')
-      oRow = int(oIndex/5)
-      oCol = oIndex%5
-      bIndex = newKey.index('B')
-      bRow = int(bIndex/5)
-      bCol = bIndex%5
-      sIndex = newKey.index('S')
-      sRow = int(sIndex/5)
-      sCol = sIndex%5
-      possible = True
-      if tRow == hRow: #same row
-        if oRow != tRow or sRow != tRow:
-          possible = False
-        elif (((tCol != 4) and (oCol - tCol == 1)) or ((tCol == 4) and (oCol - tCol == -4))) and (((hCol != 4) and (sCol - hCol == 1)) or ((hCol == 4) and (sCol - hCol == -4))): #right mapping
-          pass
-        else:
-          possible = False
-      elif tCol == hCol: #same col
-        if oCol != tCol or sCol != oCol:
-          possible = False
-        elif (((tRow != 4) and (oRow - tRow == 1)) or ((tRow == 4) and (oRow - tRow == -4))) and (((hRow != 4) and (sRow - hRow == 1)) or ((hRow == 4) and (sRow - hRow == -4))): #right mapping
-          pass
-        else:
-          possible = False
-      else: #different row/col
-        if oRow == tRow and oCol == hCol and sRow == hRow and sCol == tCol:
-          pass
-        else:
-          possible = False
-      if hRow == eRow: #same row
-        if oRow != hRow or bRow != hRow:
-          possible = False
-        elif (((hCol != 4) and (oCol - hCol == 1)) or ((hCol == 4) and (oCol - hCol == -4))) and (((eCol != 4) and (bCol - eCol == 1)) or ((eCol == 4) and (bCol - eCol == -4))): #right mapping
-          pass
-        else:
-          possible = False
-      elif hCol == eCol: #same col
-        if oCol != hCol or bCol != hCol:
-          possible = False
-        elif (((hRow != 4) and (oRow - hRow == 1)) or ((hRow == 4) and (oRow - hRow == -4))) and (((eRow != 4) and (bRow - eRow == 1)) or ((eRow == 4) and (bRow - eRow == -4))): #right mapping
-          pass
-        else:
-          possible = False
-      else: #different row/col
-        if oRow == hRow and oCol == eCol and bRow == eRow and bCol == hCol:
-          pass
-        else:
-          possible = False
-      if possible:
-        print(newKey)
+      if not checkPossibility("TH", "OS", newKey):
+        continue
+      if not checkPossibility("HE", "OB", newKey):
+        continue
+      print(newKey)
+
+"""
+Check if plain could be mapped to code for key
+"""
+def checkPossibility(plain, code, key):
+  plainLeftIndex = key.index(plain[0])
+  plainLeftRow = int(plainLeftIndex/5)
+  plainLeftCol = plainLeftIndex%5
+
+  plainRightIndex = key.index(plain[1])
+  plainRightRow = int(plainRightIndex/5)
+  plainRightCol = plainRightIndex%5
+
+  codeLeftIndex = key.index(code[0])
+  codeLeftRow = int(codeLeftIndex/5)
+  codeLeftCol = codeLeftIndex%5
+
+  codeRightIndex = key.index(code[1])
+  codeRightRow = int(codeRightIndex/5)
+  codeRightCol = codeRightIndex%5
+
+
+  if plainLeftRow == plainRightRow: #same row
+    if codeLeftRow != plainLeftRow or codeRightRow != plainLeftRow:
+      return False
+    elif (((plainLeftCol != 4) and (codeLeftCol - plainLeftCol == 1)) or ((plainLeftCol == 4) and (codeLeftCol - plainLeftCol == -4))) and \
+         (((plainRightCol != 4) and (codeRightCol - plainRightCol == 1)) or ((plainRightCol == 4) and (codeRightCol - plainRightCol == -4))): #right mapping
+      pass
+    else:
+      return False
+
+  elif plainLeftCol == plainRightCol: #same col
+    if codeLeftCol != plainLeftCol or codeRightCol != plainLeftCol:
+      return False
+    elif (((plainLeftRow != 4) and (codeLeftRow - plainLeftRow == 1)) or ((plainLeftRow == 4) and (codeLeftRow - plainLeftRow == -4))) and \
+         (((plainRightRow != 4) and (codeRightRow - plainRightRow == 1)) or ((plainRightRow == 4) and (codeRightRow - plainRightRow == -4))): #right mapping
+      pass
+    else:
+      return False
+
+  else: #different row/col
+    if codeLeftRow == plainLeftRow and codeLeftCol == plainRightCol and codeRightRow == plainRightRow and codeRightCol == plainLeftCol:
+      pass
+    else:
+      return False
+  return True
 
 
 """

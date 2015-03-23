@@ -225,7 +225,7 @@ func HillClimbCrack(text string) string {
 		for j := 0; j < 26; j++ {
 			newSquareString += string(rune(intArray[j] + 65))
 		}
-		fmt.Printf("%s \n", newSquareString)
+		fmt.Println("%s \n", newSquareString)
 		squareStrings[i] = newSquareString
 	}
 

@@ -38,5 +38,3 @@ func TestAtbash(t *testing.T) {
 
 	})
 }
-
-

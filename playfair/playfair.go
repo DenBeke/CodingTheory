@@ -6,11 +6,7 @@ import (
 	"math/rand"
 	"sort"
 	"strings"
-<<<<<<< Updated upstream
 	"sync"
-=======
-  "time"
->>>>>>> Stashed changes
 )
 
 // A struct to make use of the Playfair square
@@ -222,48 +218,19 @@ breed: create random permutations of these 5 squares
 returns the best key found
 */
 
-func HillClimbCrack(text string) {
-  rand.Seed( time.Now().UTC().UnixNano())
+func HillClimbCrack(text string) string {
 	// create the 100 random squares
-	squareStrings := make([]string, 1000000)
-  max := float64(0)
-	for i := 0; i < 1000000; i++ {
+	squareStrings := make([]string, 100)
+	for i := 0; i < 100; i++ {
 		intArray := rand.Perm(26)
 		// construct the square corresponding to this array
 		newSquareString := ""
-    keyLength := rand.Int() % 10 + 6 //between 6 and 15
-		for j := 0; j < keyLength; j++ {
-      /*if j == 9 {
-        continue
-      }*/
+		for j := 0; j < 26; j++ {
 			newSquareString += string(rune(intArray[j] + 65))
 		}
-    for k := 0; k < 26; {
-      if containsInt(k, intArray[:keyLength]) {
-        k++
-        continue
-      } else {
-        newSquareString += string(rune(k+65))
-        k++
-      }
-    }
-
-		//fmt.Printf("%s \n", newSquareString)
+		fmt.Printf("%s \n", newSquareString)
 		squareStrings[i] = newSquareString
 	}
-  fmt.Println("generated")
-
-  for i := 0; i < len(squareStrings); i++ {
-    ic := CalcIC(PlayfairDecode(text, squareStrings[i]))
-    if ic > max {
-      max = ic
-      fmt.Println(max)
-    }
-    if ic > 1.48 {
-      fmt.Println(squareStrings[i], ic)
-    }
-  }
-
 
 	// Filter out the 5 best
 	//  Decipher text and calc IC, higher IC is better
@@ -377,15 +344,6 @@ func ReplaceChar(s string, pos int, character rune) string {
 	return newString
 }
 
-func containsInt(a int, list []int) bool {
-  for _, b := range list {
-    if b == a {
-      return true
-    }
-  }
-  return false
-}
-
 func StringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -424,6 +382,7 @@ func FiveBest(squareStrings []string, text string) []string {
 		keys = append(keys, k)
 	}
 	sort.Float64s(keys)
+
 	ret := []string{}
 	count := 0
 	for rem := 5; rem > 0; {
@@ -434,7 +393,6 @@ func FiveBest(squareStrings []string, text string) []string {
 		rem -= len(ap)
 		count++
 	}
-
 
 	return ret
 }

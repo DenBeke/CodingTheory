@@ -7,6 +7,7 @@ go:
 install:
   - go get github.com/smartystreets/goconvey
   - go get github.com/smartystreets/assertions
+  - go get github.com/davecheney/profile
 
 notifications:
   slack: codetheorie:GPFuC9JhdITb4S5j2Xn3o7ug

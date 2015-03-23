@@ -3,8 +3,15 @@ package main
 //import "os"
 import "fmt"
 import "github.com/DenBeke/CodingTheory/playfair"
+import "runtime"
+import "github.com/davecheney/profile"
 
 func main() {
+	
+	defer profile.Start(profile.CPUProfile).Stop()
+	
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	
 	/*
 		if len(os.Args) == 1 {
 			println("Usage:", os.Args[0], "input.json")

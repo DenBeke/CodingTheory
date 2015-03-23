@@ -4,6 +4,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 	"math/rand"
+	"sort"
 )
 
 func TestPlayfair(t *testing.T) {
@@ -45,7 +46,7 @@ func TestPlayfair(t *testing.T) {
 		codeword := "ROBIN"
 		text1 := "YL"
 		text2 := "DV" // this should be decoded as AXAX
-        
+
         square := NewPlayfairSquare(codeword)
         retText1 := square.Decrypt(text1)
         retText2 := square.Decrypt(text2)
@@ -59,13 +60,47 @@ func TestRandom(t *testing.T) {
 	Convey("test permutation", t, func() {
 	    rand1 := rand.Perm(10)
 	    rand2 := rand.Perm(10)
-	    
+
 	    So(rand1, ShouldNotEqual, rand2)
+
+			randomNr1 := rand.Int()
+			randomNr2 := rand.Int()
+
+			So(randomNr1, ShouldNotEqual, randomNr2)
 	})
 }
 
+func TestReplaceChar(t *testing.T) {
+	Convey("test ReplaceChar", t, func() {
+			text1 := "TEST"
+			ReplaceChar(text1, 2, 'X' )
+			So(text1, ShouldNotEqual, "TEXT")
+
+	})
+}
+
+func TestSort(t *testing.T) {
+	Convey("test Sort", t, func() {
+		m := make(map[int]string)
+		m[1] = "a"
+		m[2] = "c"
+		m[0] = "b"
+
+		// To store the keys in slice in sorted order
+		var keys []int
+		for k := range m {
+				keys = append(keys, k)
+		}
+		sort.Ints(keys)
+
+		So(keys[0], ShouldBeLessThan, keys[1] )
+
+	})
+}
+
+
 func TestHillClimb(t *testing.T) {
 	Convey("test hillClimb", t, func() {
-        HillClimbCrack("DGDG") 
+        //HillClimbCrack("DGDG")
     })
 }

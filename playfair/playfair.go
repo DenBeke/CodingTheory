@@ -4,6 +4,7 @@ import(
     "fmt"
     "strings"
     "math/rand"
+    "sort"
     )
 
 // A struct to make use of the Playfair square
@@ -89,7 +90,7 @@ func NewPlayfairSquare(codeWord string) PlayfairSquare {
     // change J to I:
     r2 := strings.NewReplacer("J", "I")
 	codeWord = r2.Replace(codeWord)
-	
+
 	s := [5][5]rune{{'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}, {'A', 'A', 'A', 'A'}}
 	p := make(map[rune][2]int)
 	fullCode := ""
@@ -179,14 +180,6 @@ func Playfair(text, codeWord string) string {
 	return retText
 }
 
-func Modulo(a, b int) int {
-	temp := a % b
-	if temp < 0 {
-		return (temp + b)
-	}
-	return temp
-}
-
 /*
 Try to find the best possible square, using the hillclimb technique:
 first generate a couple (100) of random squares
@@ -209,6 +202,73 @@ func HillClimbCrack(text string) []string {
         fmt.Println("%s \n", newSquareString)
         squareStrings[i] = newSquareString
     }
+
+    // Filter out the 5 best
+    //  Decipher text and calc IC, higher IC is better
+
+    /**
+     * iterationStep:
+     * generate for each of the 5 best squares 1000 random successors
+     * by randomly swapping 2 letters.
+     * keep again the 5 best ones and continue. Until a max is reached and the newly generated ones are not increasing in IC value
+     */
+
+
+    notReady := true
+    for notReady {
+      workingSquareStrings := make([]string, 5000)
+      for i:= 0; i<5;i++{
+        // generate swap pairs
+        for k:=0; k<1000; k++ {
+          currentSquare := squareStrings[i]
+          randomNr1 := rand.Int() % 26
+          randomNr2 := rand.Int() % 26
+          // swap letter at pos 1 with the one at pos 2
+          tempRune := rune(currentSquare[randomNr2])
+          ReplaceChar(currentSquare, randomNr2, rune(currentSquare[randomNr1]))
+          ReplaceChar(currentSquare, randomNr1, tempRune)
+          workingSquareStrings[(i*1000)+k] = currentSquare
+        }
+      }
+      // Select 5 best
+
+      // check if any improvement is made.
+      // If the max of previous is less than max of current stop and return the square string.
+    }
+
     retSquares := []string{"",""}
     return retSquares
+}
+
+
+func Modulo(a, b int) int {
+  temp := a % b
+  if temp < 0 {
+    return (temp + b)
+  }
+  return temp
+}
+
+func ReplaceChar(s string, pos int, character rune) string {
+  newString := s[0:pos-1] + string(character) + s[pos+1:]
+  return newString
+}
+
+func FiveBest(squareStrings[]string) []string {
+  // create the map with the keys the IC value and a bucket containing all strings that have that IC value
+  m := make(map[float64][]string)
+  // sort the key
+  var keys []float64
+  for k := range m {
+      keys = append(keys, k)
+  }
+  sort.Float64s(keys)
+
+  ret := make([]string, 5)
+  // To perform the opertion you want
+  for pos:= 0 ; pos <5; pos++  {
+
+  }
+
+  return ret
 }

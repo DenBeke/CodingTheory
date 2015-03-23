@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"sort"
 	"strings"
+	"sync"
 )
 
 // A struct to make use of the Playfair square
@@ -287,15 +288,25 @@ func HillClimbCrack(text string) string {
 
 func CalcIC(text string) float64 {
 	// Do IC analysis on decodedText
+	var wg sync.WaitGroup
 	var IC float64 = 0.0
+	
 	for i := 65; i < 91; i++ {
-		if rune(i) == 'J' {
-			continue
-		} else {
-			c := strings.Count(text, string(rune(i)))
-			IC += float64((c * (c - 1)))
-		}
+		wg.Add(1)
+		go func(IC *float64, wg *sync.WaitGroup) {
+			defer wg.Done()
+			if rune(i) == 'J' {
+				return
+			} else {
+				c := strings.Count(text, string(rune(i)))
+				*IC += float64((c * (c - 1)))
+			}
+		}(&IC, &wg)
+		
 	}
+	
+	wg.Wait()
+	
 	IC = float64(IC) / (float64(len(text)*(len(text)-1)) / 25.0)
 	//fmt.Printf("IC: %f \n", IC)
 	return IC

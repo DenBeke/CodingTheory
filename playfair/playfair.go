@@ -212,9 +212,11 @@ keep 5 best. and breed these.
 
 Best: those with the highest IC in the text
 breed: create random permutations of these 5 squares
+
+returns the best key found
 */
 
-func HillClimbCrack(text string) []string {
+func HillClimbCrack(text string) string {
     // create the 100 random squares
     squareStrings := make([]string, 100)
     for i:= 0; i<100; i++ {
@@ -238,11 +240,12 @@ func HillClimbCrack(text string) []string {
      * keep again the 5 best ones and continue. Until a max is reached and the newly generated ones are not increasing in IC value
      */
 
-
     notReady := true
+    maxIC := 0.0
+    best := ""
     for notReady {
       workingSquareStrings := make([]string, 5000)
-      for i:= 0; i<5;i++{
+      for i:= 0; i<len(squareStrings);i++{
         // generate swap pairs
         for k:=0; k<1000; k++ {
           currentSquare := squareStrings[i]
@@ -259,11 +262,15 @@ func HillClimbCrack(text string) []string {
       squareStrings = FiveBest(workingSquareStrings, text)
       // check if any improvement is made.
       // If the max of previous is less than max of current stop and return the square string.
-
+      newMaxIC := CalcIC(PlayfairDecode(text, squareStrings[0]))
+      if (newMaxIC < maxIC) && (maxIC > 1.6) {
+        break
+      } else if newMaxIC > maxIC {
+        maxIC = newMaxIC
+        best = squareStrings[0]
+      }
     }
-
-    retSquares := []string{"",""}
-    return retSquares
+    return best
 }
 
 func CalcIC(text string) float64{

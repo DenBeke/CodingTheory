@@ -230,7 +230,7 @@ func HillClimbCrack(text string) []string {
 
     // Filter out the 5 best
     //  Decipher text and calc IC, higher IC is better
-
+    squareStrings = FiveBest(squareStrings, text)
     /**
      * iterationStep:
      * generate for each of the 5 best squares 1000 random successors
@@ -256,15 +256,31 @@ func HillClimbCrack(text string) []string {
         }
       }
       // Select 5 best
-
+      squareStrings = FiveBest(workingSquareStrings, text)
       // check if any improvement is made.
       // If the max of previous is less than max of current stop and return the square string.
+
     }
 
     retSquares := []string{"",""}
     return retSquares
 }
 
+func CalcIC(text string) float64{
+  // Do IC analysis on decodedText
+  var IC float64 = 0.0
+  for i:=65;i<91;i++ {
+    if rune(i) == 'J' {
+      continue
+    } else {
+      c := strings.Count(text, string(rune(i)))
+      IC+= float64((c*(c-1)))
+    }
+  }
+  IC = float64(IC) / (float64(len(text)*(len(text)-1))/25.0)
+  fmt.Printf("IC: %f \n", IC)
+  return IC
+}
 
 func Modulo(a, b int) int {
   temp := a % b
@@ -285,18 +301,7 @@ func FiveBest(squareStrings[]string, text string) []string {
   for _, squareString := range squareStrings {
     decodedText := PlayfairDecode(text, squareString)
 
-    // Do IC analysis on decodedText
-    var IC float64 = 0.0
-    for i:=65;i<91;i++ {
-      if rune(i) == 'J' {
-        continue
-      } else {
-        c := strings.Count(decodedText, string(rune(i)))
-        IC+= float64((c*(c-1)))
-      }
-    }
-    IC = float64(IC) / (float64(len(text)*(len(text)-1))/25.0)
-    fmt.Printf("IC: %f \n", IC)
+    IC := CalcIC(decodedText)
 
     m[IC] = append(m[IC], squareString)
   }

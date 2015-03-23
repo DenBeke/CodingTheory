@@ -47,12 +47,16 @@ func TestPlayfair(t *testing.T) {
 		text1 := "YL"
 		text2 := "DV" // this should be decoded as AXAX
 
-        square := NewPlayfairSquare(codeword)
-        retText1 := square.Decrypt(text1)
-        retText2 := square.Decrypt(text2)
+    square := NewPlayfairSquare(codeword)
+    retText1 := square.Decrypt(text1)
+    retText2 := square.Decrypt(text2)
 		So(retText1, ShouldEqual, "TE")
 		So(retText2, ShouldEqual, "AX")
 
+		text3 := "TEST"
+		encodedText := Playfair(text3, codeword)
+		decodedText := PlayfairDecode(encodedText, codeword)
+		So(decodedText, ShouldEqual, text3)
 	})
 }
 
@@ -100,6 +104,13 @@ func TestSort(t *testing.T) {
 
 
 func TestHillClimb(t *testing.T) {
+	Convey("test Best5", t, func() {
+		codeWords := []string {"ROBIN", "ROBIN", "ROBIN", "ROBIN", "ROBIN"}
+		text := "TTTT"
+		FiveBest(codeWords, text)
+
+	})
+
 	Convey("test hillClimb", t, func() {
         //HillClimbCrack("DGDG")
     })

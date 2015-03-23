@@ -180,6 +180,31 @@ func Playfair(text, codeWord string) string {
 	return retText
 }
 
+func PlayfairDecode(text, codeWord string) string {
+  if len(text) == 0 {
+    return ""
+  }
+  // clear the text of any whitespace
+  r := strings.NewReplacer(" ", "")
+  text = r.Replace(text)
+  // set all characters to uppercase
+  text = strings.ToUpper(text)
+
+  // setup the Playfair Square
+  // NOTE I = J
+  // Store in a 5 x 5 array
+  square := NewPlayfairSquare(codeWord)
+
+  retText := ""
+  // take digrams from the text.
+  for i := 0; i < len(text); i += 2 {
+    retText += square.Decrypt(string(text[i])+string(text[i+1]))
+  }
+
+  return retText
+}
+
+
 /*
 Try to find the best possible square, using the hillclimb technique:
 first generate a couple (100) of random squares
@@ -254,9 +279,27 @@ func ReplaceChar(s string, pos int, character rune) string {
   return newString
 }
 
-func FiveBest(squareStrings[]string) []string {
+func FiveBest(squareStrings[]string, text string) []string {
   // create the map with the keys the IC value and a bucket containing all strings that have that IC value
   m := make(map[float64][]string)
+  for _, squareString := range squareStrings {
+    decodedText := PlayfairDecode(text, squareString)
+
+    // Do IC analysis on decodedText
+    var IC float64 = 0.0
+    for i:=65;i<91;i++ {
+      if rune(i) == 'J' {
+        continue
+      } else {
+        c := strings.Count(decodedText, string(rune(i)))
+        IC+= float64((c*(c-1)))
+      }
+    }
+    IC = float64(IC) / (float64(len(text)*(len(text)-1))/25.0)
+    fmt.Printf("IC: %f \n", IC)
+
+    m[IC] = append(m[IC], squareString)
+  }
   // sort the key
   var keys []float64
   for k := range m {
@@ -265,9 +308,21 @@ func FiveBest(squareStrings[]string) []string {
   sort.Float64s(keys)
 
   ret := make([]string, 5)
-  // To perform the opertion you want
+  rem := 5
   for pos:= 0 ; pos <5; pos++  {
-
+    ap := m[keys[pos]]
+    if (len(ap) > rem) {
+      // just add 1st 5
+      for i:=0;i<rem;i++ {
+        ret[i]=ap[i]
+      }
+    } else {
+      for i:=0;i<rem;i++ {
+        ret[5-rem+i]=ap[i]
+      }
+      rem -= len(ap)
+    }
+    pos+=len(ap)-1
   }
 
   return ret

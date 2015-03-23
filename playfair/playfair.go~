@@ -3,6 +3,7 @@ package playfair
 import (
 	"fmt"
 	"math/rand"
+    "math"
 	"sort"
 	"strings"
 )
@@ -225,7 +226,7 @@ func HillClimbCrack(text string) string {
 		for j := 0; j < 26; j++ {
 			newSquareString += string(rune(intArray[j] + 65))
 		}
-		fmt.Println("%s \n", newSquareString)
+		fmt.Printf("%s \n", newSquareString)
 		squareStrings[i] = newSquareString
 	}
 
@@ -242,8 +243,12 @@ func HillClimbCrack(text string) string {
 	notReady := true
 	maxIC := 0.0
 	best := ""
+	iteration:= 0
 	for notReady {
-		workingSquareStrings := make([]string, 5000)
+	    fmt.Printf("Iteration: %v \n Best IC: %v \n", iteration, maxIC)
+		workingSquareStrings := squareStrings
+		// Add the previous best 5 also to this vector to eliminate going to a worse position
+		
 		for i := 0; i < len(squareStrings); i++ {
 			// generate swap pairs
 			for k := 0; k < 1000; k++ {
@@ -252,22 +257,30 @@ func HillClimbCrack(text string) string {
 				randomNr2 := rand.Int() % 26
 				// swap letter at pos 1 with the one at pos 2
 				tempRune := rune(currentSquare[randomNr2])
-				ReplaceChar(currentSquare, randomNr2, rune(currentSquare[randomNr1]))
-				ReplaceChar(currentSquare, randomNr1, tempRune)
-				workingSquareStrings[(i*1000)+k] = currentSquare
+				currentSquare = ReplaceChar(currentSquare, randomNr2, rune(currentSquare[randomNr1]))
+				currentSquare = ReplaceChar(currentSquare, randomNr1, tempRune)
+                if !StringInSlice(currentSquare, workingSquareStrings) {
+				    workingSquareStrings = append(workingSquareStrings, currentSquare)
+                }
 			}
 		}
 		// Select 5 best
 		squareStrings = FiveBest(workingSquareStrings, text)
+		for _, str := range squareStrings {
+		    fmt.Println(str)
+		}
 		// check if any improvement is made.
 		// If the max of previous is less than max of current stop and return the square string.
 		newMaxIC := CalcIC(PlayfairDecode(text, squareStrings[0]))
 		if (newMaxIC < maxIC) && (maxIC > 1.6) {
+			notReady = false
 			break
 		} else if newMaxIC > maxIC {
 			maxIC = newMaxIC
 			best = squareStrings[0]
-		}
+		} 
+		iteration++
+		
 	}
 	return best
 }
@@ -298,15 +311,25 @@ func Modulo(a, b int) int {
 
 func ReplaceChar(s string, pos int, character rune) string {
 	newString := ""
+
 	if pos == 0 {
 		newString = string(character) + s[1:]
 	} else if pos == len(s)-1 {
-		newString = s[0:pos-1] + string(character)
+		newString = s[0:pos] + string(character)
 	} else {
-		newString = s[0:pos-1] + string(character) + s[pos+1:]
+		newString = s[0:pos] + string(character) + s[pos+1:]
 	}
 
 	return newString
+}
+
+func StringInSlice(a string, list []string) bool {
+    for _, b := range list {
+        if b == a {
+            return true
+        }
+    }
+    return false
 }
 
 func FiveBest(squareStrings []string, text string) []string {
@@ -326,23 +349,15 @@ func FiveBest(squareStrings []string, text string) []string {
 	}
 	sort.Float64s(keys)
 
-	ret := make([]string, 5)
-	rem := 5
-	for pos := 0; pos < 5; pos++ {
-		ap := m[keys[pos]]
-		if len(ap) > rem {
-			// just add 1st 5
-			for i := 0; i < rem; i++ {
-				ret[i] = ap[i]
-			}
-			break
-		} else {
-			for i := 0; i < len(ap); i++ {
-				ret[5-rem+i] = ap[i]
-			}
-			rem -= len(ap)
+	ret := []string{}
+    count := 0
+	for rem := 5; rem > 0; {
+		ap := m[keys[count]]
+		for i:=0;i<int(math.Min(float64(len(ap)), float64(rem)));i++ {
+		    ret = append(ret, ap[i])
 		}
-		pos += len(ap) - 1
+		rem -= len(ap)
+		count++
 	}
 
 	return ret

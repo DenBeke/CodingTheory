@@ -1,6 +1,6 @@
 from collections import Counter, OrderedDict
 from itertools import combinations, permutations, groupby
-from random import randint
+from random import randint, seed
 
 """
 This is the row-major representation of a matrix containing the logarithms of the frequencies of digrams in English literature.
@@ -184,14 +184,18 @@ Note that this function does NOT halt. It's up to the user to kill the process w
 has been fully deciphered or at least enough to finish it by hand, of if he thinks the algorithm is stuck
 """
 def churn(text):
-  churnMultiplier = len(text) / 110
+  #aSeed = b'm\xb1\xf6\xb2$H\xf6\xc9\xce\x81\xfbU\xcc\x83Z\xad\xfd\xbc\x03\xbe'
+  #seed(aSeed)
   parentKey = "ABCDEFGHIKLMNOPQRSTUVWXYZ" #start with the alphabet as a key
   maxScore = 0
   bestKey = ""
   bestPlain = ""
+  bestIteration = 0
   iterations = 0
   while True:
     iterations += 1
+    #if iterations - bestIteration > 2000:
+    #  churn(text) #restart
     digrams = [text[i:i+2] for i in range(0, len(text), 2)]
     parentPlain = "" 
     #get the plaintext for the parentkey and score it
@@ -203,6 +207,7 @@ def churn(text):
       maxScore = parentScore
       bestKey = parentKey
       bestPlain = parentPlain
+      bestIteration = iterations
       print("Iteration ", iterations, ": ", maxScore, bestKey, bestPlain, "\n")
     #Randomly modify parentKey to get a new key
     childKey = modifyKey(parentKey)
@@ -222,7 +227,7 @@ def churn(text):
     else:
       decider = randint(0,99)
       maxDifference = churnNumbers[decider]
-      if parentScore - childScore < maxDifference:
+      if (parentScore - childScore) < maxDifference:
         parentKey = childKey
   
  

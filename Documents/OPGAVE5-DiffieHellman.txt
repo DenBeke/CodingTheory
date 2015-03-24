@@ -1,15 +1,15 @@
 Annie wil een bericht naar Boris sturen en ze gebruikt daarvoor Diffie Helmann om een gezamelijke  sleutel te maken:
 
 Daarvoor neemt zij een a die zij alsvolgt maakt:
-Ze neemt de titel van een boek. Hierin vervangt zij alle characters van deze titel door hun ASCII-waarde (tussen 32 en 127). Van deze ASCII-waarde trekt zij telkens 32 af, zodat er getallen ontstaan tussen 00 en 95. Deze getallen worden aan elkaar gelijmd tot een groot natuurlijk getal. 
+Ze neemt de titel van een boek. Hierin vervangt zij alle characters van deze titel door hun ASCII-waarde (tussen 32 en 127). Van deze ASCII-waarde trekt zij telkens 32 af, zodat er getallen ontstaan tussen 00 en 95. Deze getallen worden aan elkaar gelijmd tot een groot natuurlijk getal.
 (%%begin voorbeeld
-bv: "Pluk van de petteflet" wordt 
-(ascii) 
+bv: "Pluk van de petteflet" wordt
+(ascii)
 [80, 108, 117, 107, 32, 118, 97, 110, 32, 100, 101, 32, 112, 101, 116, 116, 101, 102, 108, 101, 116],
 (alles -32)
 [48, 76, 85, 75, 00, 86, 65, 78, 00, 68, 69, 00, 80, 69, 84, 84, 69, 70, 76, 69, 84]
 (aan elkaar)
-487685750086657800686900806984846970766984   
+487685750086657800686900806984846970766984
 %%einde voorbeeld)
 
 Dit is het verkeer dan werd afgeluisterd:
@@ -21,10 +21,10 @@ A = 93965208631426420710108237044685554466463776793445
 
 Ook Boris gebruikt voor zijn b de titel van een boek op een analoge manier als Annie.
 
-Boris antwoordt met 
+Boris antwoordt met
 B = 29568451090985766529117441313265572634102365023888
 
 
-Wat is hun gezamelijke sleutel?
+Wat is hun gezamenlijke sleutel?
 Wat zijn de boeken die Annie en Boris gebruikten?
 

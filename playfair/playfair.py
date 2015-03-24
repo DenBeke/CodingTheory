@@ -1,6 +1,7 @@
 from collections import Counter, OrderedDict
 from itertools import combinations, permutations, groupby
 from random import randint, seed
+import os
 
 """
 This is the row-major representation of a matrix containing the logarithms of the frequencies of digrams in English literature.
@@ -174,41 +175,84 @@ def digramScore(text) :
     col = ord(digram[1]) - 65
     englishFreq = DigramFreqs[row*26 + col] #grab the score for this digram
     score += int(englishFreq) * freq #add score for all appearances of this digram
+    #adjust for extra Xs in playfair
+    #+1 for each X that might have been inserted to split up a frequent digram
+    if digram[0] == 'X':
+      if 4 < int(DigramFreqs[col*27]) < 8:
+        score += freq
+      elif 8 <= int(DigramFreqs[col*27]):
+        score += 2*freq
+    if digram[1] == 'X':
+      if 4 < int(DigramFreqs[row*27]) < 8:
+        score += freq
+      elif 8 <= int(DigramFreqs[row*27]):
+        score += 2*freq
   return score
 
 """
 Decipher the given ciphertext encoded using Playfair by applying the Churn algorithm
 as explained in detail at http://www.cryptoden.com/index.php/algorithms/churn-algorithm/20-churn-algorithm
 
-Note that this function does NOT halt. It's up to the user to kill the process when he feels the ciphertext
-has been fully deciphered or at least enough to finish it by hand, of if he thinks the algorithm is stuck
 """
 def churn(text):
-  #aSeed = b'm\xb1\xf6\xb2$H\xf6\xc9\xce\x81\xfbU\xcc\x83Z\xad\xfd\xbc\x03\xbe'
-  #seed(aSeed)
+  #Feel free to try the algorithm with a random seed by removing the first two lines of code
+  #Fast runtimes not guaranteed with random seed!
+  #goodSeed = b'>>#t\xe9<\x16f!\x9f$\xc8D\xad\xbb\xa6\xae\xeb\xbd\x9c'
+  #seed(goodSeed)
   parentKey = "ABCDEFGHIKLMNOPQRSTUVWXYZ" #start with the alphabet as a key
   maxScore = 0
   bestKey = ""
   bestPlain = ""
-  bestIteration = 0
-  iterations = 0
+  iterations = 0 #total number of iterations
+  noChange = 0 #number of iterations since latest maxScore increase
+  rollbacks = 0 #number of rollbacks since latest maxScore increase
   while True:
     iterations += 1
-    #if iterations - bestIteration > 2000:
-    #  churn(text) #restart
     digrams = [text[i:i+2] for i in range(0, len(text), 2)]
     parentPlain = "" 
     #get the plaintext for the parentkey and score it
     for digram in digrams:
       parentPlain += getDigram(digram, parentKey)
     parentScore = digramScore(parentPlain)
+
+    #Keep track of how many times the score does not change
+    noChange += 1
+    #If no change is made for a long time with a less-than-great score, rollback or restart
+    #This latestScore limit should be set manually for different ciphertexts
+    if noChange == 200:
+      if rollbacks >= 10 and maxScore < 20000:
+        #Start over if no progress was made after 10 rollbacks, unless we're close to a solution
+        parentKey = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
+        noChange = 0
+        rollbacks = 0
+        bestKey = ""
+        maxScore = 0
+        bestPlain = ""
+        continue
+      #else rollback to best key so far
+      #no need to reset bestPlain as it won't be used
+      parentKey = bestKey
+      noChange = 0
+      print("ROLLBACK")
+      rollbacks += 1
+      continue
+
+
     #store best score along with used key and generated plaintext
     if parentScore > maxScore:
+      rollbacks = 0
+      noChange = 0
       maxScore = parentScore
       bestKey = parentKey
       bestPlain = parentPlain
-      bestIteration = iterations
+
       print("Iteration ", iterations, ": ", maxScore, bestKey, bestPlain, "\n")
+
+    #This will make sure the algorithm ends once finding the correct plaintext
+    #This value can only be set after deciphering once, remove this if plaintext is still not known
+    if maxScore == 21055:
+      return 0
+
     #Randomly modify parentKey to get a new key
     childKey = modifyKey(parentKey)
     childPlain = ""
@@ -217,17 +261,17 @@ def churn(text):
       childPlain += getDigram(digram, childKey)
     childScore = digramScore(childPlain)
     #Always replace a parentKey with a childKey if the childKey does better
+
     if childScore > parentScore:
       parentKey = childKey
     #If a childKey does worse, sometimes still replace parentKey with it to get out of local maximums
     #The bigger the difference between the scores, the less likely the childKey will take over
-    #Grab a random value from the churn numbers, multiply it by churnMultiplier 
-    #as the churn numbers provided are calibrated for a 110 character text
+    #Grab a random value from the churn numbers
     #If the number is larger than the difference, continue with the childKey
     else:
       decider = randint(0,99)
       maxDifference = churnNumbers[decider]
-      if (parentScore - childScore) < maxDifference:
+      if (parentScore - childScore) < (maxDifference):
         parentKey = childKey
   
  

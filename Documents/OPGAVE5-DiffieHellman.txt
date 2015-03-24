@@ -21,7 +21,7 @@ A = 93965208631426420710108237044685554466463776793445
 
 Ook Boris gebruikt voor zijn b de titel van een boek op een analoge manier als Annie.
 
-Boris antwoord met 
+Boris antwoordt met 
 B = 29568451090985766529117441313265572634102365023888
 
 

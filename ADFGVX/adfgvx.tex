@@ -9,73 +9,70 @@
 
 
 \begin{document}
-\maketitle 
-\tableofcontents
-\pagebreak
+%\maketitle 
+%\tableofcontents
+%\pagebreak
 \section{ADFGVX}
-\subsection{Undoing the single column transposition}
+\subsection{De kolomtranspositie}
+Aangezien ADFGVX eindigt met een enkele kolomtranspositie, moesten we deze eerst ongedaan maken. Hiervoor gebruikten we hetzelfde systeem als beschreven bij Vigenère: voor alle mogelijke transposities tot een bepaald aantal kolommen werd de index of coincidence berekend, waarna die met de hoogte index gekozen werd. Merk op dat we hierbij de digrammen moesten gebruiken om de index te berekenen. Uiteindelijk vonden we 4 mogelijke kolomtransposities met 4 kolommen, met elk een even grote IC.
 
 \subsection{Vinden van de taal.}
-Door eerst een frequentie analyse te doen op de 4 meest waarschijnlijke teksten, kregen we de tabel in Figure 1.
-\begin{figure}
+Door eerst een frequentieanalyse te doen op de 4 meest waarschijnlijke teksten, kregen we de onderstaande tabel.
 \begin{center}
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-'FV'& 16.93 \\ \hline
-'AA'& 8.26\\ \hline
-'DX'& 8.02\\ \hline
+'FV'& 16.93 &
+'AA'& 8.26 &
+'DX'& 8.02 &
 'AD'& 7.80\\ \hline
-'XV'& 7.32\\ \hline
-'VD'& 7.18\\ \hline
-'AF'& 6.15\\ \hline
+'XV'& 7.32 &
+'VD'& 7.18 &
+'AF'& 6.15 &
 'FF'& 5.80\\ \hline
-'GG'& 5.64\\ \hline
-'DD'& 4.91\\ \hline
-'XD'& 3.64\\ \hline
+'GG'& 5.64 &
+'DD'& 4.91 &
+'XD'& 3.64 &
 'XG'& 3.18\\ \hline
-'FA'& 3.10\\ \hline
-'DG'& 2.94\\ \hline
-'VX'& 1.59\\ \hline
+'FA'& 3.10 &
+'DG'& 2.94 &
+'VX'& 1.59 &
 'DF'& 1.21\\ \hline
-'VA'& 1.16\\ \hline
-'VG'& 1.16\\ \hline
-'GF'& 0.99\\ \hline
+'VA'& 1.16 &
+'VG'& 1.16 &
+'GF'& 0.99 &
 'GD'& 0.67\\ \hline
-'AV'& 0.56\\ \hline
-'GX'& 0.51\\ \hline
-'FG'& 0.32\\ \hline
+'AV'& 0.56 &
+'GX'& 0.51 &
+'FG'& 0.32 &
 'XX'& 0.13\\ \hline
-'AG'& 0.13\\ \hline
-'VV'& 0.10\\ \hline
-'FD'& 0.08\\ \hline
+'AG'& 0.13 &
+'VV'& 0.10 &
+'FD'& 0.08 &
 'XF'& 0.08\\ \hline
-'FX'& 0.05\\ \hline
-'XA'& 0.05\\ \hline
-'DA'& 0.05\\ \hline
+'FX'& 0.05 &
+'XA'& 0.05 &
+'DA'& 0.05 &
 'VF'& 0.05\\ \hline
-'DV'& 0.05\\ \hline
-'AX'& 0.02\\ \hline
-'GA'& 0.0\\ \hline
+'DV'& 0.05 &
+'AX'& 0.02 &
+'GA'& 0.0 &
 'GV'& 0.0\\ \hline
 \end{tabular}
 
-\caption{ Tabel met de digram frequenties voor de tekst verkregen door de 4e kolom transpositie. De andere frequentie tabellen zijn bijna identiek, alleen zijn de digrammen anders.}
+%\caption{ Tabel met de digram frequenties voor de tekst verkregen door de 4e kolom transpositie. De andere frequentie tabellen zijn bijna identiek, alleen zijn de digrammen anders.}
 \end{center}
 
-\end{figure}
-Om deze tabel te analyseren vergelijken we hem gewoon met gekende frequenties\footnote{\url{http://en.wikipedia.org/wiki/Letter_frequency}}. Dit kan omdat de digrammen in ADFGVX voor enkele characters staan. In ADFGVX kan men ook cijfers gebruiken en daze staan niet in de frequentie tabellen van de talen, maar dit is niet echt een probleem, aangezien de frequentie van deze zeer klein zijn.
+Om deze tabel te analyseren vergelijken we hem gewoon met gekende frequenties\footnote{\url{http://en.wikipedia.org/wiki/Letter_frequency}}. Dit kan omdat de digrammen in ADFGVX voor enkele characters staan. In ADFGVX kan men ook cijfers gebruiken. Deze staan niet in de frequentietabellen vermeld, maar dit is niet echt een probleem, aangezien deze waarschijnlijk een redelijk kleine frequentie hebben. Dit gaf ons wel een vervormde index of coincidence, waardoor we puur op deze waarde de taal niet konden bepalen. Het viel ons wel op dat het meest voorkomende digram, 'FV' bijna dubbel zo frequent was als het tweede. Van de waarschijnlijke talen voor deze tekst, zijn het Frans en Duits de enige met dit kenmerk. Aangezien de Enigma code in het Duits is, is het zeer waarschijnlijk dat deze tekst in het Frans is geschreven.
 
 \subsection{Vinden van de bron tekst}
 
-Het digram 'FV' komt het veel vaker voor dan de rest. De enige talen waar dit geval is zijn Frans en Duits. Aangezien de Enigma code in het Duits is het zeer waarschijnlijk dat deze tekst in het Frans is geschreven.
-
-Voordat we begonnen met letters te vervangen hebben we eerst het aantal mogelijke teksten terug gebracht van 4 naar 2. We hebben dit gedaan door te kijken naar de digrammen die 2 maal op elkaar volgen. (@JAKOB: GIJ hebt dees gedaan, dus kunde gij da uittypen).
+Voordat we begonnen met letters te vervangen hebben we eerst het aantal mogelijke teksten terug gebracht van 4 naar 2. We hebben dit gedaan door te kijken naar de digrammen die 2 maal op elkaar volgen. Bij twee van de vier mogelijke teksten kwam een opeenvolging van twee keer hetzelfde digram erg veel voor. Gezien dit in het Frans minder voorkomt, konden we deze teksten al elimineren.
 
 Nu we nog 2 mogelijke teksten hadden, hebben we het werk opgesplitst onder Jakob en Robin, die elks een tekst probeerden te kraken.
 
-Door eerst de meest frequente letters in te vullen (FV=e, DX=n, ... ) en daarna met trial en error de andere redelijk frequente characters in te vullen, verschenen er Franse woorden, of strings die erg leken op een Frans woord, hierdoor konden we ook de minder frequente letters invullen. Eens ongeveer de helft van de digrammen was vervangen door een character, konden we zinnen lezen en zo de andere characters aanvullen, eens we de eerste zin zeker wisten konden we Google aanspreken \footnote{\googleSearch} en vonden we dat het ging om het eerste hoofdstuk van \textit{"vingt mille lieues sous les mers"} van Jules Vernes. 
+Door eerst de meest frequente letters in te vullen (FV=e, DX=n, ... ) en daarna met trial en error de andere redelijk frequente characters in te vullen, verschenen er Franse woorden, of strings die erg leken op een Frans woord, hierdoor konden we ook de minder frequente letters invullen. Eens ongeveer de helft van de digrammen was vervangen door een character, konden we zinnen lezen en zo de andere characters aanvullen, eens we de eerste zin zeker wisten konden we Google aanspreken \footnote{\googleSearch} en vonden we dat het ging om het eerste hoofdstuk van \textit{"Vingt mille lieues sous les mers"} van Jules Vernes. 
 
-Zoals reeds vermeld hadden we 2 teksten opgelost, beide gaven dezelfde tekst. Als we kijken naar de vierkanten die beiden gaven (Figure 2 en 3), zien we dat de ene een spiegeling is van de andere, deze spiegeling wordt dan ongedaan gemaakt, door een andere kolom transpositie te doen.	% TODO verder uitwerken hoe dit juist (wiskundig) gebeurt.
+Zoals reeds vermeld hadden we 2 teksten opgelost, beide gaven dezelfde tekst. Als we kijken naar de vierkanten die beiden gaven (Figure 2 en 3), zien we dat de ene de getransponeerde versie van de andere is. Dit betekent dat de digrammen voor de ene versie de omgekeerde zijn van de andere versie. Ene ene ciphertekst is dus gelijk aan de andere ciphertekst met elk digram omgedraaid, voor de kolomtranspositie. Gezien de kolomtranspositie met een even aantal kolommen gebeurde, kan door een verschillende kolomtranspositie toe te passen op beide teksten, dezelfde uiteindelijke ciphertekst bekomen worden.
 
 \begin{figure}[h!]
    \begin{minipage}{0.45\textwidth}

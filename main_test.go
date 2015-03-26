@@ -17,7 +17,7 @@ func TestMain(t *testing.T) {
 
 		So(noError, ShouldEqual, true)
 
-		e := enigma_config.CreateEnigma()
+		e := enigma_config.CreateEnigma([3]int{0, 1, 2})
 
 		encoded := e.Encode("TEST", "AAA")
 		So(encoded, ShouldEqual, "ETOE")

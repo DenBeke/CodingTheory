@@ -1,8 +1,10 @@
 {
   "Rotors": [
-    { "Id": 1, "Setup": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
-    { "Id": 2, "Setup": "QWERTYUIOPASDFGHJKLZXCVBNM"},
-    { "Id": 3, "Setup": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}
+    { "Id": 0, "Setup": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+    { "Id": 1, "Setup": "QWERTYUIOPASDFGHJKLZXCVBNM"},
+    { "Id": 2, "Setup": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+    { "Id": 3, "Setup": "EKMFLGDQVZNTOWYHXUSPAIBRCJ"},
+    { "Id": 4, "Setup": "BDFHJLCPRTXVZNYEIWGAKMUSQO"}
   ],
 
   "ReflectorSetup": "YRUHQSLDPXNGOKMIEBFZCWVJAT",

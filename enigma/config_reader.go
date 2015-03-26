@@ -15,7 +15,7 @@ type RotorConfig struct {
 type EnigmaConfig struct {
 	ReflectorSetup  string
 	PlugboardConfig string
-	Rotors          [3]RotorConfig
+	Rotors          [5]RotorConfig
 }
 
 // unmarshall enigma object
@@ -42,13 +42,13 @@ func ReadConfig(file_name string) (*EnigmaConfig, error) {
 
 }
 
-func (e EnigmaConfig) CreateEnigma() Enigma {
+func (e EnigmaConfig) CreateEnigma(rotors [3]int) Enigma {
 
 	// create the rotor
 	r := [3]rotor.Rotor{}
-	r[0] = rotor.NewRotor(e.Rotors[0].Setup)
-	r[1] = rotor.NewRotor(e.Rotors[1].Setup)
-	r[2] = rotor.NewRotor(e.Rotors[2].Setup)
+	r[0] = rotor.NewRotor(e.Rotors[rotors[0]].Setup)
+	r[1] = rotor.NewRotor(e.Rotors[rotors[1]].Setup)
+	r[2] = rotor.NewRotor(e.Rotors[rotors[2]].Setup)
 
 	p := NewPlugboard(e.PlugboardConfig)
 	refl := NewReflector(e.ReflectorSetup)

@@ -1,0 +1,27 @@
+
+B-K
+C-E
+F-H
+I-Y
+M-W
+O-Z
+Q-S
+
+A-A
+D-D
+G-G
+L-L
+N-N
+P-P
+R-R
+U-U
+V-V
+
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+A K E D C H G F Y J B L W N Z P S R Q T U V M X I O
+
+
+Guessed: (X,J,T missing)
+J-J
+T-T
+X-X

@@ -199,7 +199,7 @@ func PlayfairDecode(text, codeWord string) string {
 
 	retText := ""
 	// take digrams from the text.
-	
+
 	for i := 0; i < len(text); i += 2 {
 		retText += square.Decrypt(string(text[i]) + string(text[i+1]))
 	}
@@ -266,23 +266,23 @@ func HillClimbCrack(text string) string {
 				}
 			}
 		}
-		
+
 		fmt.Println(" Generated working squares")
-		
+
 		// Select 5 best
 		squareStrings = FiveBest(workingSquareStrings, text)
 		for _, str := range squareStrings {
 			fmt.Println(str)
 		}
-		
+
 		fmt.Println(" Selected five best")
-		
+
 		// check if any improvement is made.
 		// If the max of previous is less than max of current stop and return the square string.
 		newMaxIC := CalcIC(PlayfairDecode(text, squareStrings[0]))
-		
+
 		fmt.Println(" Done PlayfairDecode")
-		
+
 		if (newMaxIC < maxIC) && (maxIC > 1.6) {
 			notReady = false
 			break
@@ -300,7 +300,7 @@ func CalcIC(text string) float64 {
 	// Do IC analysis on decodedText
 	var wg sync.WaitGroup
 	var IC float64 = 0.0
-	
+
 	for i := 65; i < 91; i++ {
 		wg.Add(1)
 		go func(IC *float64, wg *sync.WaitGroup) {
@@ -312,11 +312,11 @@ func CalcIC(text string) float64 {
 				*IC += float64((c * (c - 1)))
 			}
 		}(&IC, &wg)
-		
+
 	}
-	
+
 	wg.Wait()
-	
+
 	IC = float64(IC) / (float64(len(text)*(len(text)-1)) / 25.0)
 	//fmt.Printf("IC: %f \n", IC)
 	return IC
@@ -357,25 +357,24 @@ func FiveBest(squareStrings []string, text string) []string {
 	// create the map with the keys the IC value and a bucket containing all strings that have that IC value
 	m := make(map[float64][]string)
 	wg := sync.WaitGroup{}
-	
+
 	for _, squareString := range squareStrings {
-		
+
 		wg.Add(1)
-		
+
 		func() {
-			
+
 			defer wg.Done()
-			
+
 			decodedText := PlayfairDecode(text, squareString)
 			IC := CalcIC(decodedText)
 			m[IC] = append(m[IC], squareString)
-			
-			
+
 		}()
 	}
-	
+
 	wg.Wait()
-	
+
 	// sort the key
 	var keys []float64
 	for k := range m {

@@ -1,2 +1,5 @@
 CodingTheory
 *~
+*.log
+*.aux
+*.out

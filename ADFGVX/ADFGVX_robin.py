@@ -145,9 +145,9 @@ replace = { 'AA': 'a',
             'AF': 'r',
             'XF': '1',
             'GG': 'u',
-		    'XV': 't', 
+		    'XV': 't',
             'VG': 'f',
-            
+
             'AD': 's',
 		    'AG': '6',
 		    'AV': 'h',
@@ -155,26 +155,26 @@ replace = { 'AA': 'a',
 		    'DF': 'g',
 		    'DG': 'm',
 		    'FA': 'c',
-		    'FD': '2', 
+		    'FD': '2',
 		    'FG': 'y',
 		    'FX': '8',
-		    'GD': 'x', 
+		    'GD': 'x',
 		    'GF': 'b',
 		    'GX': 'j',
-		    'VA': 'q', 
-		    'VD': 'i', 
+		    'VA': 'q',
+		    'VD': 'i',
 		    'VF': '0',
-		    'VV': 'z', 
+		    'VV': 'z',
 		    'VX': 'v',
-		    'XD': 'd', 
+		    'XD': 'd',
 		    'XG': 'p',
-		    'DV': '3', 
+		    'DV': '3',
 		    'GA': '',
 		    'GV': '',
-		     
-		    'XA': '', 
+
+		    'XA': '',
 		    'AX': '4',
-		    'DA': '5',  
+		    'DA': '5',
 
 		    'XX': 'k' }
 
@@ -183,4 +183,4 @@ while count < len(text):
     digram = text[count] + text[count+1]
     text1 += replace[digram]
     count+=2
-print(text1)
+print(text1.upper())

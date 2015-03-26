@@ -13,6 +13,12 @@
 %\tableofcontents
 %\pagebreak
 \section{ADFGVX}
+\subsection{De opdracht}
+Om ADGFGVX te kraken moeten we eerst de morse code decoderen, daarna de kolom transpositie ongedaan maken en vervolgens het vierkant vinden om de oorspronkelijke tekst te bekomen.
+
+\subsection{Morse decoderen}
+Dit is snel gedaan door de tekst op te splitsen in de strings die tussen "/" staan en deze via een simpele map om te zetten naar hun bijbehorende characters.
+
 \subsection{De kolomtranspositie}
 Aangezien ADFGVX eindigt met een enkele kolomtranspositie, moesten we deze eerst ongedaan maken. Hiervoor gebruikten we hetzelfde systeem als beschreven bij Vigenère: voor alle mogelijke transposities tot een bepaald aantal kolommen werd de index of coincidence berekend, waarna die met de hoogte index gekozen werd. Merk op dat we hierbij de digrammen moesten gebruiken om de index te berekenen. Uiteindelijk vonden we 4 mogelijke kolomtransposities met 4 kolommen, met elk een even grote IC.
 

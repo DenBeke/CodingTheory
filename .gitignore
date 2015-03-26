@@ -1,2 +1,8 @@
 CodingTheory
+main
 *~
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc

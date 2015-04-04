@@ -1,0 +1,50 @@
+beta = A = 93965208631426420710108237044685554466463776793445
+alpha = g = 8754324567890876543245678908765432456789
+p = 97067553992624667459897809313680908020593207653741
+
+p-1 prime factors
+2^2
+3^2
+5
+19
+71^2
+79
+1471
+14087
+70379
+9110581
+9126043
+9726001
+60432007
+
+a
+
+Prime 2 gets x 0
+Prime 3 gets x 1
+Prime 5 gets x 0
+Prime 19 gets x 15
+Prime 71 gets x 1504
+Prime 79 gets x 0
+Prime 1471 gets x 327
+Prime 14087 gets x 5649
+Prime 70379 gets x 53990
+Prime 9110581 gets x 1621858
+Prime 9126043 gets x 7487110
+Prime 9726001 gets x 5962660
+Prime 60432007 gets x 44789738
+
+b
+
+Prime 2 gets x 0
+Prime 3 gets x 8
+Prime 5 gets x 0
+Prime 19 gets x 18
+Prime 71 gets x 1874
+Prime 79 gets x 0
+Prime 1471 gets x 1214
+Prime 14087 gets x 8542
+Prime 70379 gets x 41725
+Prime 9110581 gets x 5918548
+Prime 9126043 gets x 4368382
+Prime 9726001 gets x 2344520
+Prime 60432007 gets x 3374968

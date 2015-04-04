@@ -69,18 +69,18 @@ func main() {
 	 * This way one plugboard setting can also be found
 	 */
 
-	/*rs := enigma.MakeRotorSetup()
+	rs := enigma.MakeRotorSetup()
 	//Uncomment any one of these closed path lists to test for node in the crib graph
-	closedPaths := [][]int{{6,32,12,1},{6,32,12,17,21},{6,32,12,18,21},{13,0,2,14,12,1},{13,3,30,23,26,4,7,6},{29,5,32,16,27,0,3,31,9,22,10}} // FOR I
+	//closedPaths := [][]int{{6,32,12,1},{6,32,12,17,21},{6,32,12,18,21},{13,0,2,14,12,1},{13,3,30,23,26,4,7,6},{29,5,32,16,27,0,3,31,9,22,10}} // FOR I
 	//closedPaths := [][]int{{16,14,32},{16,27,0,24},{16,2,0,13,6},{32,5,29,6},{7,15,25,18,12,32}} //FOR A
 	//closedPaths := [][]int{{17,18},{17,1,21},{18,12,32,6,21},{25,15,7,32,12,18},{21,10,22,9,31,30,23,26,4,7,32,12,17},{17,12,32,16,2,0,13,21}} //FOR U
-	//closedPaths := [][]int{{5,29,6,32},{32,7,4,26,23,30,3,13,1,12},{12,1,13,0,2,14},{14,16,32},{12,17,25,15,7,32}} //FOR D
+	closedPaths := [][]int{{5,29,6,32},{32,7,4,26,23,30,3,13,1,12},{12,1,13,0,2,14},{14,16,32},{12,17,25,15,7,32}} //FOR D
 	for i := 0; i < 60; i++ {
 		setup := rs.GetNext()
 		fmt.Println("Setup ", i, ": ", setup)
 		e := enigma_config.CreateEnigma(setup)
 		e.GetFix(closedPaths)
-	}*/
+	}
 
 	/**
 	 * Use this block to determine the plugboard setting for a letter

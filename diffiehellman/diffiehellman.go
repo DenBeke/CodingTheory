@@ -5,6 +5,10 @@ import "math/big"
 
 //import "math"
 import "fmt"
+import "log"
+import "strconv"
+import "regexp"
+import "runtime"
 
 //import "sync"
 //import "runtime"
@@ -52,6 +56,8 @@ func NumbersToAscii(numbers []uint8) string {
 	return out
 
 }
+
+
 
 // FindPrimeFactors returns slice of prime factors of the given number
 func FindPrimeFactors(n *big.Int) (factors []uint64) {
@@ -148,3 +154,71 @@ func IndexCalculus(g *big.Int, y *big.Int, p *big.Int) (u *big.Int) {
 
 	return u
 }
+
+
+func FindUsefulStrings(a1 string, p1 string) {
+
+	runtime.GOMAXPROCS(runtime.NumCPU()*2)
+
+	regex := regexp.MustCompile(`^([a-zA-Z0-9]*[[:space:]]?)*[\.]?$`)
+
+	_ = regex
+
+	a := big.NewInt(0)
+	a.SetString(a1, 10)
+
+	p := big.NewInt(0)
+	p.SetString(p1, 10) // p-1
+
+	semaphore := make(semaphore, runtime.NumCPU()*2)
+	var it uint64 = 0
+
+	for {
+
+		semaphore <- empty{}
+		it++
+
+		//a.Add(a, p)
+
+		if it % 1000000 == 0 {
+			log.Println(it)
+		}
+
+		go func (iteration uint64){
+
+			num := big.NewInt(0)
+			new_p := big.NewInt(0)
+
+			num.Set(a)
+			num.Add(num, new_p.Mul(big.NewInt(int64(iteration)), p))
+
+
+			s := []uint8{}
+
+			for i,d := range num.String() {
+
+				if i%2 == 1 && len(s) != 0 {
+					i,_ := strconv.ParseInt(string(d), 10, 64)
+					s[len(s)-1] = s[len(s)-1]*10 + uint8(i)
+
+				} else {
+					i,_ := strconv.ParseInt(string(d), 10, 64)
+					s = append(s, uint8(i))
+				}
+			}
+
+
+			if regex.MatchString(NumbersToAscii(s)) {
+				fmt.Println(NumbersToAscii(s))
+			}
+
+			<- semaphore
+
+		}(it)
+
+	}
+
+}
+
+
+

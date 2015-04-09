@@ -153,6 +153,3 @@ sharedKey = 76755567381519549143666616401510211097526907381540
 print(powermod(g, a, p) == A)
 print(powermod(g, b, p) == B)
 print(powermod(B, a, p) == powermod(A, b, p))
-#for i in range(1000):
-#  toText(a)
-#  a += (p-1)

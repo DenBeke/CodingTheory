@@ -10,50 +10,6 @@ import "github.com/DenBeke/CodingTheory/enigma"
 
 func main() {
 
-	//defer profile.Start(profile.CPUProfile).Stop()
-
-	//runtime.GOMAXPROCS(runtime.NumCPU())
-
-	/*
-		if len(os.Args) == 1 {
-			println("Usage:", os.Args[0], "input.json")
-			return
-		}
-
-		enigma_config, err := enigma.ReadConfig(os.Args[1])
-
-		if err != nil {
-			println("Error:", err)
-
-		}
-
-		fmt.Println(enigma_config)
-		e := enigma_config.CreateEnigma()
-		encoded := e.Encode("TEST", "AAA")
-		fmt.Printf("%q \n", encoded)
-		fmt.Printf("Finished encoding \n")
-	*/
-
-	//defer profile.Start(profile.CPUProfile).Stop()
-
-	//runtime.GOMAXPROCS(runtime.NumCPU())
-
-	/*if len(os.Args) == 1 {
-		println("Usage:", os.Args[0], "input.json")
-		return
-	}
-
-	enigma_config, err := enigma.ReadConfig(os.Args[1])
-
-	if err != nil {
-		println("Error:", err)
-
-	}
-	fmt.Println(enigma_config)
-	e := enigma_config.CreateEnigma(rotors)
-	encoded := e.Encode("XXXXXXXXXXXXB", "AAA")
-	fmt.Printf("%q \n", encoded)
-	fmt.Printf("Finished encoding \n")*/
 
 	/**
 	 * THE FOLLOWING CODE IS USED TO CRACK THE ENIGMA CIPHER

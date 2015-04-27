@@ -1,12 +1,13 @@
 \documentclass[a4paper,11pt]{article}
 \author{Mathias Beke - 20120536\\ Jakob Struye - 20120612 \\ Robin Verachtert - 20121405}
 \title{Codetheorie: \\Ontcijferopdracht}
-\date{26 march 2015}
+\date{3 mei 2015}
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{seqsplit}
 \usepackage{graphicx}
 \usepackage[toc,page]{appendix}
+\setcounter{section}{-1}
 
 
 \begin{document}
@@ -14,10 +15,15 @@
 \tableofcontents
 \pagebreak
 
+\section{Inleiding}
+Dit is het verslag van de resultaten van de ontcijferopdracht voor het vak codetheorie. Voor elk van de vijf opdrachten slaagden we erin de versleutelde boodschap volledig te ontcijferen. Bij de laatste opdracht vonden we alleen de titels van boeken gebruikt om sleutels te genereren niet. Voor elke opdracht volgen een tweetal pagina's over hoe we de opdracht aangepakt hebben, waar we eventueel moeilijkheden mee hadden en hoe we uiteindelijk het resultaat vonden. Daarna volgen nog twee appendices. Eerst hebben we een oplijsting van alle ontcijferde teskten en gebruikte sleutels, codewoorden en instellingen. We geven altijd de ontcijferde teksten zonder opmaak (spaties, kleine letters, leestekens), maar geven in de verslagen telkens een link naar een online versie met goede opmaak. In de tweede appendix staat beschreven hoe de code uitgevoerd kan worden. Hiermee is het mogelijk om onze resultaten te reconstrueren.
+
 \input{vigenere/Vigenere.tex}
 \input{playfair/playfair.tex}
 \input{ADFGVX/adfgvx.tex}
+\pagebreak %for style purposes
 \input{enigma/enigma.tex}
 \input{diffiehellman/diffie.tex}
+\pagebreak %for style purposes
 \input{appendix.tex}
 \end{document}

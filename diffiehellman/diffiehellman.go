@@ -9,8 +9,9 @@ import "log"
 import "strconv"
 import "regexp"
 import "runtime"
+import "strings"
 
-//import "sync"
+import "sync"
 //import "runtime"
 
 /*
@@ -156,6 +157,84 @@ func IndexCalculus(g *big.Int, y *big.Int, p *big.Int) (u *big.Int) {
 }
 
 
+
+func LetterRatio(s string) float32 {
+	
+	letters := []rune { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' }
+	
+	char_count := 0
+	vowel_count := 0
+	
+	for _,c := range s {
+		char_count++
+		for _,v := range letters {
+			if c == v {
+				vowel_count++
+				break
+			}
+		}
+	}
+	
+	return float32(vowel_count)/float32(char_count)
+	
+}
+
+
+func VowelRatio(s string) float32 {
+	
+	vowels := []rune { 'a','e','i','o', 'u'}
+	
+	char_count := 0
+	vowel_count := 0
+	
+	for _,c := range s {
+		char_count++
+		for _,v := range vowels {
+			if c == v {
+				vowel_count++
+				break
+			}
+		}
+	}
+	
+	return float32(vowel_count)/float32(char_count)
+	
+}
+
+
+func ContainsSpace(s string, n uint8) bool {
+	
+	var count uint8 = 0
+	
+	for _,c := range s {
+		if c == ' ' {
+			count++
+		}
+		if count >= n {
+			return true
+		}
+	}
+	
+	return false
+	
+}
+
+
+func IsCapital(s rune) bool {
+	
+	letters := []rune {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }
+	
+	for _,c := range letters {
+		if s == c {
+			return true
+		}
+	}
+	
+	return false
+	
+}
+
+
 func FindUsefulStrings(a1 string, p1 string) {
 
 	runtime.GOMAXPROCS(runtime.NumCPU()*2)
@@ -171,20 +250,29 @@ func FindUsefulStrings(a1 string, p1 string) {
 	p.SetString(p1, 10) // p-1
 
 	semaphore := make(semaphore, runtime.NumCPU()*2)
+	
+	mutex := sync.Mutex{}
+	
 	var it uint64 = 0
 
 	for {
 
 		semaphore <- empty{}
+		
+		mutex.Lock()
+		
 		it++
-
-		//a.Add(a, p)
 
 		if it % 1000000 == 0 {
 			log.Println(it)
 		}
+		
+		mutex.Unlock()
+
 
 		go func (iteration uint64){
+
+			defer func() { <- semaphore }()
 
 			num := big.NewInt(0)
 			new_p := big.NewInt(0)
@@ -192,10 +280,63 @@ func FindUsefulStrings(a1 string, p1 string) {
 			num.Set(a)
 			num.Add(num, new_p.Mul(big.NewInt(int64(iteration)), p))
 
+			num_string := num.String()
+			
+			
+			// Check if even number of digits
+			if len(num_string) % 2 == 1 {
+				diff := big.NewInt(10)
+				diff.Exp(diff, big.NewInt(int64(len(num_string))), nil)
+				diff.Sub(diff, a)
+				
+				timesp := big.NewInt(0)
+				timesp.Div(diff, p)
+				timesp.Add(timesp, big.NewInt(1))
+				
+				mutex.Lock()
+				it = timesp.Uint64()
+				mutex.Unlock()
+				
+				/*
+				if len(tostr) % 2 or int(tostr[0:2]) > 58:
+				diff = 10 ** (len(tostr)) - usedLetter
+				timesp = (diff // (p-1)) + 1
+				usedLetter += timesp * (p-1)
+				counter += timesp
+				tostr = str(usedLetter)
+				*/
+				return
+			}
+			
+			// Check if first is letter
+			if i,_ := strconv.ParseInt(num_string[0:2], 10, 64); i > 58 {
+				diff := big.NewInt(10)
+				diff.Exp(diff, big.NewInt(int64(len(num_string))), nil)
+				diff.Sub(diff, a)
+				
+				timesp := big.NewInt(0)
+				timesp.Div(diff, p)
+				timesp.Add(timesp, big.NewInt(1))
+				
+				mutex.Lock()
+				it = timesp.Uint64()
+				mutex.Unlock()
+				
+				/*
+				if len(tostr) % 2 or int(tostr[0:2]) > 58:
+				diff = 10 ** (len(tostr)) - usedLetter
+				timesp = (diff // (p-1)) + 1
+				usedLetter += timesp * (p-1)
+				counter += timesp
+				tostr = str(usedLetter)
+				*/
+				return
+			}
+			
 
 			s := []uint8{}
 
-			for i,d := range num.String() {
+			for i,d := range num_string {
 
 				if i%2 == 1 && len(s) != 0 {
 					i,_ := strconv.ParseInt(string(d), 10, 64)
@@ -208,11 +349,39 @@ func FindUsefulStrings(a1 string, p1 string) {
 			}
 
 
-			if regex.MatchString(NumbersToAscii(s)) {
-				fmt.Println(NumbersToAscii(s))
-			}
+			ss := strings.ToLower(NumbersToAscii(s))
 
-			<- semaphore
+			
+			// Check if string starts with capital
+			if !IsCapital(rune(ss[0])) {
+				return
+			}
+			
+			
+			// Check for enough letters
+			if !ContainsSpace(ss, 2) {
+				return
+			}
+			
+			//fmt.Println("possible:", iteration, ss)
+			if !(VowelRatio(ss) >= 0.25) {
+				return
+			}
+			
+			if !(LetterRatio(ss) >= 0.90) {
+				return
+			}
+			
+			fmt.Println(iteration, NumbersToAscii(s))
+			
+
+			/*
+			if regex.MatchString(ss) {
+				fmt.Println(iteration, ss)
+			}
+			*/
+
+			
 
 		}(it)
 

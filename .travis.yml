@@ -9,5 +9,8 @@ install:
   - go get github.com/smartystreets/assertions
   - go get github.com/davecheney/profile
 
+script:
+  - go test . ./diffiehellman/ ./enigma/ ./frequencyAnalysis/ ./monoAlphabeticCyphers/ ./playfair/ ./rotor/ -v
+
 notifications:
   slack: codetheorie:GPFuC9JhdITb4S5j2Xn3o7ug

@@ -3,14 +3,13 @@ package main
 //import "os"
 import "fmt"
 
-//import "github.com/DenBeke/CodingTheory/diffiehellman"
-import "github.com/DenBeke/CodingTheory/enigma"
-
+import "CodingTheory/enigma"
 
 //import "runtime"
 //import "github.com/davecheney/profile"
 
 func main() {
+
 
 	/**
 	 * THE FOLLOWING CODE IS USED TO CRACK THE ENIGMA CIPHER
@@ -82,4 +81,3 @@ func main() {
 	 * END OF ENIGMA DECIPHER CODE
 	 */
 }
-

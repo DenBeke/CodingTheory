@@ -3,16 +3,16 @@
 
 \section{ADFGVX}
 \subsection{De opdracht}
-Om ADGFGVX te kraken moeten we eerst de morse code decoderen, daarna de kolom transpositie ongedaan maken en vervolgens het vierkant vinden om de oorspronkelijke tekst te bekomen.
+Om ADGFGVX te kraken moeten we eerst de morsecode decoderen, daarna de kolomtranspositie ongedaan maken en vervolgens het vierkant vinden om de oorspronkelijke tekst te bekomen.
 
 \subsection{Morse decoderen}
-Dit is snel gedaan door de tekst op te splitsen in de strings die tussen "/" staan en deze via een simpele map om te zetten naar hun bijbehorende characters.
+Dit is snel gedaan door de tekst op te splitsen en deze via een simpele map om te zetten naar hun bijbehorende characters.
 
 \subsection{De kolomtranspositie}
-Aangezien ADFGVX eindigt met een enkele kolomtranspositie, moesten we deze eerst ongedaan maken. Hiervoor gebruikten we hetzelfde systeem als beschreven bij Vigenère: voor alle mogelijke transposities tot een bepaald aantal kolommen werd de index of coincidence berekend, waarna die met de hoogte index gekozen werd. Merk op dat we hierbij de digrammen moesten gebruiken om de index te berekenen. Uiteindelijk vonden we 4 mogelijke kolomtransposities met 4 kolommen, met elk een even grote IC.
+Aangezien ADFGVX eindigt met een enkele kolomtranspositie, moesten we deze eerst ongedaan maken. Hiervoor gebruikten we hetzelfde systeem als beschreven bij Vigen\`ere: voor alle mogelijke transposities tot een bepaald aantal kolommen werd de index of coincidence berekend, waarna die met de hoogste IC gekozen werd. Merk op dat we hierbij de digrammen moesten gebruiken om de index te berekenen. Uiteindelijk vonden we 4 mogelijke kolomtransposities met 4 kolommen, met elk een even grote IC.
 
-\subsection{Vinden van de taal.}
-Door eerst een frequentieanalyse te doen op de 4 meest waarschijnlijke teksten, kregen we de onderstaande tabel.
+\subsection{Bepalen van de taal}
+Door eerst een frequentieanalyse te doen op een van de 4 meest waarschijnlijke teksten, kregen we de onderstaande tabel.
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
@@ -57,17 +57,17 @@ Door eerst een frequentieanalyse te doen op de 4 meest waarschijnlijke teksten, 
 %\caption{ Tabel met de digram frequenties voor de tekst verkregen door de 4e kolom transpositie. De andere frequentie tabellen zijn bijna identiek, alleen zijn de digrammen anders.}
 \end{center}
 
-Om deze tabel te analyseren vergelijken we hem gewoon met gekende frequenties\footnote{\url{http://en.wikipedia.org/wiki/Letter_frequency}}. Dit kan omdat de digrammen in ADFGVX voor enkele characters staan. In ADFGVX kan men ook cijfers gebruiken. Deze staan niet in de frequentietabellen vermeld, maar dit is niet echt een probleem, aangezien deze waarschijnlijk een redelijk kleine frequentie hebben. Dit gaf ons wel een vervormde index of coincidence, waardoor we puur op deze waarde de taal niet konden bepalen. Het viel ons wel op dat het meest voorkomende digram, 'FV' bijna dubbel zo frequent was als het tweede. Van de waarschijnlijke talen voor deze tekst, zijn het Frans en Duits de enige met dit kenmerk. Aangezien de Enigma code in het Duits is, is het zeer waarschijnlijk dat deze tekst in het Frans is geschreven.
+Deze tabel vergeleken we met gekende frequenties\footnote{\url{http://en.wikipedia.org/wiki/Letter_frequency}}. Dit kan omdat de digrammen in ADFGVX voor enkele characters staan. In ADFGVX kunnen ook cijfers voorkomen. Deze staan niet in de gekende frequentietabellen vermeld, maar dit is niet echt een probleem aangezien deze waarschijnlijk een redelijk kleine frequentie hebben. Dit gaf ons wel een vervormde index of coincidence, waardoor we puur op deze waarde de taal niet konden bepalen. Het viel ons wel op dat het meest voorkomende digram, 'FV', bijna dubbel zo frequent was als het tweede. Van de waarschijnlijke talen voor deze tekst, zijn het Frans en Duits de enige met dit kenmerk. Aangezien de Enigma code in het Duits is, waren we vrij zeker dat dit een Franse tekst ging zijn.
 
-\subsection{Vinden van de bron tekst}
+\subsection{Bepalen van de plaintext}
 
-Voordat we begonnen met letters te vervangen hebben we eerst het aantal mogelijke teksten terug gebracht van 4 naar 2. We hebben dit gedaan door te kijken naar de digrammen die 2 maal op elkaar volgen. Bij twee van de vier mogelijke teksten kwam een opeenvolging van twee keer hetzelfde digram erg veel voor. Gezien dit in het Frans minder voorkomt, konden we deze teksten al elimineren.
+Voordat we begonnen met letters te vervangen hebben we eerst het aantal mogelijke teksten teruggebracht van 4 naar 2. We berekenden de frequenties van paren van digrammen. Bij 2 teksten scoorde een paar van twee keer hetzelfde digram erg goed. Gezien geen enkele opeenvolging van twee keer hetzelfde teken in het Frans erg frequent is, konden we deze teksten al elimineren.
 
-Nu we nog 2 mogelijke teksten hadden, hebben we het werk opgesplitst onder Jakob en Robin, die elks een tekst probeerden te kraken.
+\noindent Nu we nog 2 mogelijke teksten hadden, probeerden we met twee elk om een van de twee teksten te ontcijferen.
 
-Door eerst de meest frequente letters in te vullen (FV=e, DX=n, ... ) en daarna met trial en error de andere redelijk frequente characters in te vullen, verschenen er Franse woorden, of strings die erg leken op een Frans woord, hierdoor konden we ook de minder frequente letters invullen. Eens ongeveer de helft van de digrammen was vervangen door een character, konden we zinnen lezen en zo de andere characters aanvullen, eens we de eerste zin zeker wisten konden we Google aanspreken \footnote{\googleSearch} en vonden we dat het ging om het eerste hoofdstuk van \textit{"Vingt mille lieues sous les mers"} van Jules Vernes.
+\noindent Door eerst de meest frequente letters in te vullen (bv .FV=e, DX=n, ... ) en daarna met trial en error de andere redelijk frequente characters in te vullen, verschenen er Franse woorden, of strings die erg leken op een Frans woord. Hierdoor konden we ook de minder frequente letters invullen. Eens ongeveer de helft van de digrammen was vervangen door een character, konden we hier en daar zinnen lezen. Eens we de eerste zin zeker wisten konden we Google aanspreken \footnote{\googleSearch} en vonden we dat het ging om het eerste hoofdstuk van \textit{"Vingt mille lieues sous les mers"} van Jules Verne. \\
 
-Zoals reeds vermeld hadden we 2 teksten opgelost, beide gaven dezelfde tekst. Als we kijken naar de vierkanten die beide gaven (Figure 2 en 3), zien we dat de ene de getransponeerde versie van de andere is. Dit betekent dat de digrammen voor de ene versie de omgekeerde zijn van de andere versie. Ene ene ciphertekst is dus gelijk aan de andere ciphertekst met elk digram omgedraaid, voor de kolomtranspositie. Gezien de kolomtranspositie met een even aantal kolommen gebeurde, kan door een verschillende kolomtranspositie toe te passen op beide teksten, dezelfde uiteindelijke ciphertekst bekomen worden.
+\noindent Zoals reeds vermeld hadden we 2 teksten ontcijferd. Beide gaven dezelfde tekst. Als we kijken naar de vierkanten die beide gaven (Figure 2 en 3), zien we dat de ene de getransponeerde versie van de andere is. Dit betekent dat de digrammen voor de ene versie de omgekeerde zijn van de andere versie. De ene ciphertekst is dus gelijk aan de andere ciphertekst met elk digram omgedraaid, voor de kolomtranspositie. Gezien de kolomtranspositie met een even aantal kolommen gebeurde, kan door een verschillende kolomtranspositie toe te passen op beide teksten, dezelfde uiteindelijke ciphertekst bekomen worden.
 
 \begin{figure}[h!]
    \begin{minipage}{0.45\textwidth}
@@ -88,9 +88,9 @@ Zoals reeds vermeld hadden we 2 teksten opgelost, beide gaven dezelfde tekst. Al
 		&A&D&F&G&V&X\\	\hline\hline
 		A&a&s&r&6&h&4\\ \hline
 		D&5&o&g&m&3&n\\ \hline
-		F&c&2&i&y&e&8\\ \hline
+		F&c&2&l&y&e&8\\ \hline
 		G&?&x&b&u&?&j\\ \hline
-		V&q&l&0&f&z&v\\ \hline
+		V&q&i&0&f&z&v\\ \hline
 		X&w&d&1&p&t&k\\ \hline
 		\end{tabular}
 		\caption{Vierkant van de 2e tekst }

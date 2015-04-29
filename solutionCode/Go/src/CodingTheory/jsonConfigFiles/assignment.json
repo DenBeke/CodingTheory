@@ -1,0 +1,12 @@
+{
+  "Rotors": [
+    { "Id": 0, "Setup": "AJDKSIRUXBLHWTMCQGZNPYFVOE"},
+    { "Id": 1, "Setup": "EKMFLGDQVZNTOWYHXUSPAIBRCJ"},
+    { "Id": 2, "Setup": "BDFHJLCPRTXVZNYEIWGAKMUSQO"},
+    { "Id": 3, "Setup": "THEQUICKBROWNFXJMPSVLAZYDG"},
+    { "Id": 4, "Setup": "XANTIPESOKRWUDVBCFGHJLMQYZ"}
+  ],
+
+  "ReflectorSetup": "YRUHQSLDPXNGOKMIEBFZCWVJAT",
+  "PlugboardConfig": "AKEDCHGFYJBLWNZPSRQTUVMXIO"
+}
